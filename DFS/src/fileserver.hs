@@ -10,11 +10,11 @@ import qualified Data.Map as M
 import Data.Map (Map)
 
 type Msg = (Int, String)
-type Server = TVar (Map Int Room)
+type Server = TVar (Map Int Client)
 
-type RoomName = String
-data Room = Room 
-  { roomName :: RoomName
+
+data Client = Client 
+  { clientName :: String
   }
 
 
@@ -22,16 +22,12 @@ newServer :: IO Server
 newServer = newTVarIO M.empty
 
 portNum :: Int
-portNum = 3454
+portNum = 77011
 
 main :: IO()
 main = do 
-  putStrLn "What file should i open?"
-  fileName <- getLine
-  putStrLn "What should i write to it?"
-  toWrite <- getLine
-  writeFileandClose fileName toWrite
-  --openSocket
+  
+  openSocket
   
 
 runConn :: Handle -> Server -> Int -> IO ()
@@ -42,8 +38,16 @@ runConn handle server port = do
   return ()
   where
     readNxt = do 
-      hPutStrLn handle "HELLO"
-    --deal with messages
+      command <- hGetLine handle
+      case words command of
+        ["OPEN", fileName] -> do
+          putStrLn "Writing file to client"
+          openFileandSend handle fileName
+          putStrLn "readingNxt"
+          readNxt
+        _ -> do
+          putStrLn $ "do not recognise command: " ++ command
+          readNxt
     
 
 openSocket :: IO()
@@ -60,8 +64,10 @@ openFileandSend :: Handle -> String -> IO()
 openFileandSend clientHandle filename = do  
   fileHandle <- openFile filename ReadMode
   contents <- hGetContents fileHandle
+  putStrLn $ "File contents are: \n" ++ contents
   hClose fileHandle
-  hPutStrLn clientHandle contents
+  hPutStr clientHandle contents
+  
 
 writeFileandClose :: String -> String-> IO() 
 writeFileandClose fileName toWrite = do
