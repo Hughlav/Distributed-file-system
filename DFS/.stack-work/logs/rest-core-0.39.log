@@ -1,0 +1,24 @@
+Configuring rest-core-0.39...
+Building rest-core-0.39...
+Preprocessing library rest-core-0.39...
+[ 1 of 18] Compiling Rest.ShowUrl     ( src/Rest/ShowUrl.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/ShowUrl.o )
+[ 2 of 18] Compiling Rest.Info        ( src/Rest/Info.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Info.o )
+[ 3 of 18] Compiling Rest.Error       ( src/Rest/Error.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Error.o )
+[ 4 of 18] Compiling Rest.Dictionary.Types ( src/Rest/Dictionary/Types.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Dictionary/Types.o )
+[ 5 of 18] Compiling Rest.Dictionary.Combinators ( src/Rest/Dictionary/Combinators.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Dictionary/Combinators.o )
+[ 6 of 18] Compiling Rest.Dictionary  ( src/Rest/Dictionary.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Dictionary.o )
+[ 7 of 18] Compiling Rest.Handler     ( src/Rest/Handler.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Handler.o )
+[ 8 of 18] Compiling Rest.Schema      ( src/Rest/Schema.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Schema.o )
+[ 9 of 18] Compiling Rest.Resource    ( src/Rest/Resource.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Resource.o )
+[10 of 18] Compiling Rest.Container   ( src/Rest/Container.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Container.o )
+[11 of 18] Compiling Rest.Api         ( src/Rest/Api.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Api.o )
+[12 of 18] Compiling Rest.Driver.Types ( src/Rest/Driver/Types.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Driver/Types.o )
+[13 of 18] Compiling Rest.Driver.Perform ( src/Rest/Driver/Perform.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Driver/Perform.o )
+[14 of 18] Compiling Rest.Driver.RestM ( src/Rest/Driver/RestM.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Driver/RestM.o )
+[15 of 18] Compiling Rest.Driver.Routing.Internal ( src/Rest/Driver/Routing/Internal.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Driver/Routing/Internal.o )
+[16 of 18] Compiling Rest.Driver.Routing ( src/Rest/Driver/Routing.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Driver/Routing.o )
+[17 of 18] Compiling Rest.Run         ( src/Rest/Run.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Run.o )
+[18 of 18] Compiling Rest             ( src/Rest.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest.o )
+Installing library in
+/Users/HughLavery/.stack/snapshots/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/rest-core-0.39-ahGRaw2zALL2s2gUho9AY
+Registering rest-core-0.39...

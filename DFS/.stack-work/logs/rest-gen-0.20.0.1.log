@@ -1,0 +1,24 @@
+Configuring rest-gen-0.20.0.1...
+Building rest-gen-0.20.0.1...
+Preprocessing library rest-gen-0.20.0.1...
+[ 1 of 18] Compiling Rest.Gen.NoAnnotation ( src/Rest/Gen/NoAnnotation.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/NoAnnotation.o )
+[ 2 of 18] Compiling Rest.Gen.Types   ( src/Rest/Gen/Types.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Types.o )
+[ 3 of 18] Compiling Rest.Gen.Config  ( src/Rest/Gen/Config.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Config.o )
+[ 4 of 18] Compiling Rest.Gen.Base.XML ( src/Rest/Gen/Base/XML.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/XML.o )
+[ 5 of 18] Compiling Rest.Gen.Base.Link ( src/Rest/Gen/Base/Link.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/Link.o )
+[ 6 of 18] Compiling Rest.Gen.Base.JSON.Pretty ( src/Rest/Gen/Base/JSON/Pretty.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/JSON/Pretty.o )
+[ 7 of 18] Compiling Rest.Gen.Base.JSON ( src/Rest/Gen/Base/JSON.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/JSON.o )
+[ 8 of 18] Compiling Rest.Gen.Base.ActionInfo.Ident ( src/Rest/Gen/Base/ActionInfo/Ident.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/ActionInfo/Ident.o )
+[ 9 of 18] Compiling Rest.Gen.Base.ActionInfo ( src/Rest/Gen/Base/ActionInfo.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/ActionInfo.o )
+[10 of 18] Compiling Paths_rest_gen   ( .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/autogen/Paths_rest_gen.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Paths_rest_gen.o )
+[11 of 18] Compiling Rest.Gen.Utils   ( src/Rest/Gen/Utils.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Utils.o )
+[12 of 18] Compiling Rest.Gen.Base.ApiTree ( src/Rest/Gen/Base/ApiTree.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base/ApiTree.o )
+[13 of 18] Compiling Rest.Gen.Base    ( src/Rest/Gen/Base.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Base.o )
+[14 of 18] Compiling Rest.Gen.Docs    ( src/Rest/Gen/Docs.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Docs.o )
+[15 of 18] Compiling Rest.Gen.Haskell ( src/Rest/Gen/Haskell.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Haskell.o )
+[16 of 18] Compiling Rest.Gen.JavaScript ( src/Rest/Gen/JavaScript.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/JavaScript.o )
+[17 of 18] Compiling Rest.Gen.Ruby    ( src/Rest/Gen/Ruby.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen/Ruby.o )
+[18 of 18] Compiling Rest.Gen         ( src/Rest/Gen.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Gen.o )
+Installing library in
+/Users/HughLavery/.stack/snapshots/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/rest-gen-0.20.0.1-5NiWre2U1qB4Hsu1La9pJD
+Registering rest-gen-0.20.0.1...

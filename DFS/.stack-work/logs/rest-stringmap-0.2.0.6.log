@@ -1,0 +1,23 @@
+Configuring rest-stringmap-0.2.0.6...
+Building rest-stringmap-0.2.0.6...
+Preprocessing library rest-stringmap-0.2.0.6...
+
+src/Rest/StringMap/HashMap/Lazy.hs:4:5: warning:
+    -XOverlappingInstances is deprecated: instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS
+
+src/Rest/StringMap/HashMap/Strict.hs:4:5: warning:
+    -XOverlappingInstances is deprecated: instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS
+
+src/Rest/StringMap/Map/Lazy.hs:4:5: warning:
+    -XOverlappingInstances is deprecated: instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS
+
+src/Rest/StringMap/Map/Strict.hs:4:5: warning:
+    -XOverlappingInstances is deprecated: instead use per-instance pragmas OVERLAPPING/OVERLAPPABLE/OVERLAPS
+[1 of 5] Compiling Rest.StringMap.Util ( src/Rest/StringMap/Util.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/StringMap/Util.o )
+[2 of 5] Compiling Rest.StringMap.Map.Strict ( src/Rest/StringMap/Map/Strict.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/StringMap/Map/Strict.o )
+[3 of 5] Compiling Rest.StringMap.Map.Lazy ( src/Rest/StringMap/Map/Lazy.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/StringMap/Map/Lazy.o )
+[4 of 5] Compiling Rest.StringMap.HashMap.Strict ( src/Rest/StringMap/HashMap/Strict.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/StringMap/HashMap/Strict.o )
+[5 of 5] Compiling Rest.StringMap.HashMap.Lazy ( src/Rest/StringMap/HashMap/Lazy.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/StringMap/HashMap/Lazy.o )
+Installing library in
+/Users/HughLavery/.stack/snapshots/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/rest-stringmap-0.2.0.6-EBIqJjwWuFdKH0lZAtuihY
+Registering rest-stringmap-0.2.0.6...

@@ -1,0 +1,24 @@
+Configuring rest-types-1.14.1.1...
+Building rest-types-1.14.1.1...
+Preprocessing library rest-types-1.14.1.1...
+[1 of 8] Compiling Rest.Types.Void  ( src/Rest/Types/Void.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Void.o )
+[2 of 8] Compiling Rest.Types.ShowUrl ( src/Rest/Types/ShowUrl.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/ShowUrl.o )
+[3 of 8] Compiling Rest.Types.Range ( src/Rest/Types/Range.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Range.o )
+[4 of 8] Compiling Rest.Types.Method ( src/Rest/Types/Method.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Method.o )
+[5 of 8] Compiling Rest.Types.Info  ( src/Rest/Types/Info.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Info.o )
+[6 of 8] Compiling Rest.Types.Error ( src/Rest/Types/Error.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Error.o )
+[7 of 8] Compiling Rest.Types.Container.Resource ( src/Rest/Types/Container/Resource.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Container/Resource.o )
+[8 of 8] Compiling Rest.Types.Container ( src/Rest/Types/Container.hs, .stack-work/dist/x86_64-osx/Cabal-1.24.2.0/build/Rest/Types/Container.o )
+
+src/Rest/Types/Container.hs:25:1: warning: [-Wunused-imports]
+    The import of ‘Data.Foldable’ is redundant
+      except perhaps to import instances from ‘Data.Foldable’
+    To import instances alone, use: import Data.Foldable()
+
+src/Rest/Types/Container.hs:27:1: warning: [-Wunused-imports]
+    The import of ‘Data.Traversable’ is redundant
+      except perhaps to import instances from ‘Data.Traversable’
+    To import instances alone, use: import Data.Traversable()
+Installing library in
+/Users/HughLavery/.stack/snapshots/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/rest-types-1.14.1.1-Fes5wM9TSBmCkkVTAwtcaV
+Registering rest-types-1.14.1.1...
