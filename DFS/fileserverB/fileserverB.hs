@@ -25,7 +25,7 @@ newServer :: IO FileList
 newServer = newTVarIO M.empty
 
 portNum :: Int
-portNum = 8701
+portNum = 8801
 
 main :: IO()
 main = do 

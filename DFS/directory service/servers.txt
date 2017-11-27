@@ -1,1 +1,2 @@
-fileserverA 8701
+fileserverA 8800
+fileserverB 8801

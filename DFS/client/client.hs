@@ -26,7 +26,7 @@ module Main where
     newServer = newTVarIO M.empty
     
     portNum :: Int
-    portNum = 8701
+    portNum = 8909
     
     main :: IO()
     main = do 
@@ -88,10 +88,17 @@ module Main where
     
     writeNewFileandCache :: Handle -> String -> String -> IO()
     writeNewFileandCache handle fileName contents = do 
+      putStrLn "getting port of server"
       let request = "WRITE " ++ fileName ++ " " ++ contents ++ " " ++ clientName --contents with no space
       hPutStrLn handle request
+      portServ <- hGetLine handle
       putStrLn $ "File: " ++ fileName ++ " sent to cache"
       writeFileandClose fileName contents
+      handleServ <- connectTo "localhost" (PortNumber (fromIntegral (read portServ)))
+      hPutStrLn handleServ request
+      putStrLn $ "File: " ++ fileName ++ " sent to a fileserver"
+      forkFinally (awaitUpdate handleServ) (\_ -> hClose handleServ) -- fork thread for getting updates on cached file
+      return()
     
     
     writeFileandClose :: String -> String-> IO() 
@@ -101,3 +108,10 @@ module Main where
       hClose fileHandle
       putStrLn "Written to file"
       
+    awaitUpdate :: Handle -> IO()
+    awaitUpdate handleServ = do 
+      update <- hGetLine handleServ
+      case words update of
+        _ -> do 
+          putStrLn "wow"
+          return()
