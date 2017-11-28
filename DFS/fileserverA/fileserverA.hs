@@ -12,7 +12,7 @@ import qualified Data.Map as M
 import Data.Map (Map)
 
 
-type CachedBy = TVar (Map String Int)
+type CachedBy = TVar (Map String Handle)
 type FileList = TVar (Map String File)
 
 data File = File
@@ -29,7 +29,6 @@ portNum = 8800
 
 main :: IO()
 main = do 
-  
   openSocket
   
 
@@ -50,7 +49,7 @@ runConn handle fileList port = do
           readNxt
         ["WRITE", fileName, fileContents, clientName] -> do
           putStrLn "Saving file"
-          writeFileList fileName fileContents clientName fileList
+          writeFileList handle fileName fileContents clientName fileList
           readNxt
         ["VER", fileName] -> do 
           ver <- checkVer fileName fileList
@@ -77,8 +76,6 @@ checkVer fileName fileList = atomically $ do
       return (ver :: Int)
 
 
-
-
 openSocket :: IO()
 openSocket = withSocketsDo $ do
   sock <- listenOn (PortNumber (fromIntegral portNum))
@@ -94,12 +91,40 @@ openFileandSend clientHandle fileList filename = do
   contents <- readFile filename
   putStrLn $ "File contents are: \n" ++ contents
   hPutStrLn clientHandle (contents ++ "\n!EOF!")
-  -- store that client has this file cached add to filesCached
   
-writeFileList :: String -> String -> String -> FileList -> IO()
-writeFileList fileName fileContents clientName fileList = do
-  addToFileList fileName fileList clientName
+
+openFileandSend' :: Handle -> FileList -> String -> IO() 
+openFileandSend' clientHandle fileList fileName = do
+  hPutStrLn clientHandle $ "UPDATE "  ++ fileName
+  response <- hGetLine clientHandle
+  case words response of
+    ["READY"] -> do
+      contents <- readFile fileName
+      putStrLn $ "Updated file contents are: \n" ++ contents
+      hPutStrLn clientHandle (contents ++ "\n!EOF!")
+    _-> do 
+      error "Client not ready to recieve cache update"
+    
+  
+writeFileList :: Handle -> String -> String -> String -> FileList -> IO()
+writeFileList handle fileName fileContents clientName fileList = do
+  addToFileList handle fileName fileList clientName
   writeFileandClose fileName fileContents 
+  updateClientCache fileList fileName clientName
+  return()
+
+updateClientCache :: FileList -> String -> String ->IO()
+updateClientCache fileList fileName hasUpdatedVer = do
+  list <- atomically $ readTVar fileList
+  case M.lookup fileName list of
+    Nothing -> do
+      --should not be possible
+      error "Cannot update cache for file not on fileList"
+    Just aFile -> do
+      cacheList <- atomically $ readTVar (cachedBy aFile)
+      let oldCaches = M.delete hasUpdatedVer cacheList
+      let handles = M.elems oldCaches
+      mapM_ (\x -> openFileandSend' x fileList fileName) handles 
 
 
 writeFileandClose :: String -> String-> IO() 
@@ -109,17 +134,17 @@ writeFileandClose fileName toWrite = do
   hClose fileHandle
   putStrLn "Written to file"
 
-addToFileList :: String -> FileList -> String -> IO()
-addToFileList fileName fileList clientName = atomically $ do
+addToFileList :: Handle -> String -> FileList -> String -> IO()
+addToFileList handle fileName fileList clientName = atomically $ do
   list <- readTVar fileList
   case M.lookup fileName list of 
     Nothing -> do --new file
-      file <- newFile 1 fileName clientName
+      file <- newFile handle fileName clientName
       modifyTVar (fileVersion file) (add 1)
       let addList = M.insert fileName file list
       writeTVar fileList addList
       cacheList <- readTVar (cachedBy file)
-      let addCacheList = M.insert clientName (1 :: Int) cacheList
+      let addCacheList = M.insert clientName handle cacheList --do i do this twice?
       writeTVar (cachedBy file) addCacheList
     Just aFile -> do --exising file 
       cacheList <- readTVar (cachedBy aFile)
@@ -127,19 +152,15 @@ addToFileList fileName fileList clientName = atomically $ do
         Nothing -> do -- add client to list
           modifyTVar (fileVersion aFile) (add 1)
           ver <- readTVar (fileVersion aFile) 
-          let addCacheList = M.insert clientName ver cacheList
+          let addCacheList = M.insert clientName handle cacheList
           writeTVar (cachedBy aFile) addCacheList
-          --check others cached are up to date
         Just aClient -> --update verion number
           modifyTVar (fileVersion aFile) (add 1)
-          --check others cached are up to date
       
---updateCaches
-  
 
-newFile :: Int -> String -> String -> STM File
-newFile version fileName clientName = do
-  cacheList <- newTVar $ M.insert clientName version M.empty
+newFile :: Handle -> String -> String -> STM File
+newFile handle fileName clientName = do
+  cacheList <- newTVar $ M.insert clientName handle M.empty
   vers <- newTVar 0
   return File { fileVersion = vers
               , cachedBy = cacheList

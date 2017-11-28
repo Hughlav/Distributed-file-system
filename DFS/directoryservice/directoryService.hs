@@ -29,7 +29,7 @@ numServ :: Int
 numServ = 2
 
 portNum :: Int
-portNum = 8909
+portNum = 8910
 
 
 main :: IO()
@@ -134,11 +134,13 @@ portNumber serverList index = do
   putStrLn $show index
   case maybeServ of
     Just aServ -> do 
+      storeInServerFilesList fileName aServ --Store file name in file list for this server
       let port = (portNo aServ)
       return port
 
- 
-
+storeInServerFilesList :: String -> FileServer -> IO()
+storeInServerFilesList fileName fileServer = do
+  --store 
 
 
 add :: Int ->  Int
