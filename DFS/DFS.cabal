@@ -18,8 +18,17 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Main
-  -- other-modules:       
+  other-modules:       Client
+                     , FileServer
   -- other-extensions:    
   build-depends:       base
+                     , containers
+                     , network
+                     , async
+                     , stm
+                     , hashable
+                     , directory
   hs-source-dirs:      directoryservice
+                     , fileServer
+                     , client/src
   default-language:    Haskell2010

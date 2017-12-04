@@ -30,7 +30,7 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/bin"
-libdir     = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/DFS-0.1.0.0-95T7TmFdHoc1anZLCFoJV3"
+libdir     = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2/DFS-0.1.0.0-8jVWvB4mTg1IUkCEEYmdc9"
 dynlibdir  = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/lib/x86_64-osx-ghc-8.0.2"
 datadir    = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/share/x86_64-osx-ghc-8.0.2/DFS-0.1.0.0"
 libexecdir = "/Users/HughLavery/Documents/College/Year 4/CS4400/Distributed-file-system/DFS/.stack-work/install/x86_64-osx/lts-9.10/8.0.2/libexec"

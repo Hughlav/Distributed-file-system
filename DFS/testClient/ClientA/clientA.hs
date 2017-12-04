@@ -2,8 +2,11 @@
 import Client
 
 portNum :: Int
-portNum = 8910
+portNum = 9111
+
+clientName :: String
+clientName = "clientA"
 
 main :: IO()
 main = do 
-  openSocket portNum
+  openSocket portNum clientName

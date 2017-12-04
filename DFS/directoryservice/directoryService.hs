@@ -9,8 +9,10 @@ import Control.Monad.Fix (fix)
 import Network (PortID(..), accept, listenOn, withSocketsDo, Socket)
 import Control.Concurrent.STM
 import qualified Data.Map as M
-import Data.Map (Map)
+import Data.Map (Map) 
+import Data.List
 import Data.Sequence
+import Data.IntSet (findMax, fromList)
 
 type FileList = TVar [String]
 type ServerList = TVar (Map Int FileServer)
@@ -29,7 +31,7 @@ numServ :: Int
 numServ = 2
 
 portNum :: Int
-portNum = 8910
+portNum = 9111
 
 
 main :: IO()
@@ -102,33 +104,66 @@ runConn handle serverList port count = do
     readNxt = do 
       command <- hGetLine handle
       case words command of
-        ["WRITE", fileName, fileContents, clientName] -> do
-          portNoServ <- writeNewFile serverList fileName fileContents clientName count
-          portNoSer <- portNoServ
-          putStrLn $ show portNoSer
-          hPutStrLn handle (show portNoSer)
+        ["WRITE", fileName, clientName] -> do
+          portNoServ <- fileServerPortNum serverList fileName
+          if (portNoServ /= 0)
+            then do -- existing file
+              putStrLn $ show portNoServ
+              hPutStrLn handle (show portNoServ)
+            else do -- new file
+              portNoServ <- writeNewFile serverList fileName clientName count
+              portNoSer <- portNoServ
+              putStrLn $ show portNoSer
+              hPutStrLn handle (show portNoSer)
           readNxt
         ["OPEN", fileName] -> do
           putStrLn "Writing file to client" --find which server has that file
+          portNoServ <-fileServerPortNum serverList fileName
+          putStrLn $ "PortNum of where file is stored (to open) is: " ++ (show portNoServ)
+          hPutStrLn handle (show portNoServ)
           readNxt
+        ["CLOSE", fileName] -> do
+          putStrLn "getting port to close"
+          portNoServ <- fileServerPortNum serverList fileName
+          if (portNoServ /= 0)
+            then do -- existing file
+              hPutStrLn handle (show portNoServ)
+              putStrLn $ show portNoServ
+            else do
+              putStrLn "error not on a server"
 
-writeNewFile :: ServerList -> String -> String -> String -> Count -> IO (IO Int)
-writeNewFile serverList fileName fileContents clientName count =  atomically $ do
+
+fileServerPortNum :: ServerList -> String -> IO Int
+fileServerPortNum serverList fileName = do
+  servers <- atomically $ readTVar serverList
+  let fileServers = M.elems servers
+  portList <- mapM (\a -> findPort (files a) (portNo a) fileName) fileServers
+  let a = findMax (Data.IntSet.fromList portList)
+  return a
+
+findPort :: FileList -> Int -> String -> IO Int
+findPort fileList portNum fileName = do 
+  filesList <- atomically $ readTVar fileList
+  let maybeFile = elem fileName filesList
+  if maybeFile then
+    return portNum
+  else
+    return 0
+
+
+writeNewFile :: ServerList -> String -> String -> Count -> IO (IO Int)
+writeNewFile serverList fileName clientName count =  atomically $ do
   countc <- takeTMVar count
   if (countc < numServ)
     then do
-      --pNum <- portNumber serverList countc
-      --counterN <- newTMVar (add countc)
       putTMVar count (add countc)
-      
-      return (portNumber serverList countc)
+      return (portNumber serverList fileName countc)
     else do
-      --pNum <- 
       putTMVar count (0)
-      return (portNumber serverList 0)
+      return (portNumber serverList fileName 0)
   
-portNumber :: ServerList -> Int -> IO Int
-portNumber serverList index = do
+portNumber :: ServerList -> String -> Int -> IO Int
+portNumber serverList fileName index = do
   servers <- atomically $ readTVar serverList
   let maybeServ = M.lookup index servers
   putStrLn $show index
@@ -139,8 +174,10 @@ portNumber serverList index = do
       return port
 
 storeInServerFilesList :: String -> FileServer -> IO()
-storeInServerFilesList fileName fileServer = do
-  --store 
+storeInServerFilesList fileName fileServer = atomically $ do
+  filesList <- readTVar (files fileServer)
+  let addFileList = insert fileName filesList
+  writeTVar (files fileServer) addFileList --add new file to list of files
 
 
 add :: Int ->  Int

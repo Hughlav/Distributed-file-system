@@ -77,6 +77,17 @@
   (major1) == 1 && (major2) == 2 && (minor) <= 6)
 #endif /* MIN_VERSION_hashable */
 
+/* package directory-1.3.0.2 */
+#ifndef VERSION_directory
+#define VERSION_directory "1.3.0.2"
+#endif /* VERSION_directory */
+#ifndef MIN_VERSION_directory
+#define MIN_VERSION_directory(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  3 || \
+  (major1) == 1 && (major2) == 3 && (minor) <= 0)
+#endif /* MIN_VERSION_directory */
+
 /* tool alex-3.2.1 */
 #ifndef TOOL_VERSION_alex
 #define TOOL_VERSION_alex "3.2.1"
@@ -176,6 +187,17 @@
   (major1) == 1 && (major2) == 24 && (minor) <= 0)
 #endif /* MIN_TOOL_VERSION_hscolour */
 
+/* tool pkg-config-0.29.2 */
+#ifndef TOOL_VERSION_pkg_config
+#define TOOL_VERSION_pkg_config "0.29.2"
+#endif /* TOOL_VERSION_pkg_config */
+#ifndef MIN_TOOL_VERSION_pkg_config
+#define MIN_TOOL_VERSION_pkg_config(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  29 || \
+  (major1) == 0 && (major2) == 29 && (minor) <= 2)
+#endif /* MIN_TOOL_VERSION_pkg_config */
+
 /* tool runghc-8.2.1 */
 #ifndef TOOL_VERSION_runghc
 #define TOOL_VERSION_runghc "8.2.1"
@@ -188,10 +210,10 @@
 #endif /* MIN_TOOL_VERSION_runghc */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "Client-0.1.0.0-GAiffd11U3F2NTkWvXM0wL"
+#define CURRENT_PACKAGE_KEY "Client-0.1.0.0-C9BTXI0st8r8MZJqIrMpyC"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "Client-0.1.0.0-GAiffd11U3F2NTkWvXM0wL"
+#define CURRENT_COMPONENT_ID "Client-0.1.0.0-C9BTXI0st8r8MZJqIrMpyC"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"
