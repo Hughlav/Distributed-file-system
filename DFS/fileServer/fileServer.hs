@@ -7,14 +7,15 @@ import Control.Exception
 import Control.Concurrent 
 import Control.Monad (when, forever)
 import Control.Monad.Fix (fix)
-import Network (PortID(..), accept, listenOn, withSocketsDo, Socket)
+import Network (PortID(..), accept, listenOn, withSocketsDo, Socket, connectTo)
 import Control.Concurrent.STM
 import qualified Data.Map as M
 import Data.Map (Map)
+import System.Exit
 
 
 
-type CachedBy = TVar (Map String Handle)
+type CachedBy = TVar (Map Int Handle)
 type FileList = TVar (Map String File)
 
 data File = File
@@ -25,13 +26,6 @@ data File = File
 
 newServer :: IO FileList
 newServer = newTVarIO M.empty
-
--- portNum :: Int
--- portNum = 8800
-
--- main :: IO()
--- main = do 
---   openSocket
   
 
 runConn :: Handle -> FileList -> Int -> IO ()
@@ -44,18 +38,19 @@ runConn handle fileList port = do
     readNxt = do 
       command <- hGetLine handle
       case words command of
-        ["OPEN", fileName, clientName] -> do
+        ["OPEN", fileName, clientPort] -> do
           putStrLn "Writing file to client"
-          openFileandSend handle fileList fileName clientName
+          openFileandSend handle fileList fileName (read clientPort)
           putStrLn "readingNxt"
           readNxt
-        ["WRITE", fileName, clientName] -> do
+        ["WRITE", fileName, clientPort] -> do
           hPutStrLn handle "READY"
           putStrLn "Waiting for file"
           let fileStr = ""
           fileStr <- myLoop fileStr handle
           putStrLn "Saving file"
-          writeFileList handle fileName fileStr clientName fileList
+          putStrLn $ "Portnum is: " ++ clientPort
+          writeFileList handle fileName fileStr (read clientPort) fileList
           readNxt
           where
               myLoop fileStr handle = do 
@@ -64,13 +59,13 @@ runConn handle fileList port = do
                   then do
                     return (fileStr)
                   else do 
-                    myLoop (fileStr ++ "\n" ++ file) handle
+                    myLoop (fileStr ++ file ++ "\n") handle
         ["READY", fileName] -> do
             contents <- readFile fileName
             putStrLn $ "Updated file contents are: \n" ++ contents
             hPutStrLn handle (contents ++ "\n!EOF!")
-        ["CLOSE", fileName, clientName] -> do
-            removeClientfromCacheList fileName clientName fileList
+        ["CLOSE", fileName, clientPort] -> do
+            removeClientfromCacheList fileName (read clientPort) fileList
         ["VER", fileName] -> do 
           ver <- checkVer fileName fileList
           case ver of 
@@ -82,23 +77,21 @@ runConn handle fileList port = do
           putStrLn $ "do not recognise command: " ++ command
           readNxt
 
-removeClientfromCacheList :: String -> String -> FileList -> IO()
-removeClientfromCacheList fileName clientName fileList = atomically $ do
+removeClientfromCacheList :: String -> Int -> FileList -> IO()
+removeClientfromCacheList fileName clientPort fileList = atomically $ do
     list <- readTVar fileList
     case M.lookup fileName list of 
         Nothing -> do
             error "That file list does not exist"
         Just aFile -> do
             cacheList <- readTVar (cachedBy aFile)
-            case M.lookup clientName cacheList of
+            case M.lookup clientPort cacheList of
               Nothing -> do -- add client to list
                 error "Client was already of cacheList"
               Just aClient -> do--update verion number
-                let addCacheList = M.delete clientName cacheList
+                let addCacheList = M.delete clientPort cacheList
                 writeTVar (cachedBy aFile) addCacheList
  
-
-
 
 checkVer :: String -> FileList -> IO Int
 checkVer fileName fileList = atomically $ do
@@ -116,14 +109,17 @@ openSocket portNum = withSocketsDo $ do
   sock <- listenOn (PortNumber (fromIntegral portNum))
   fileList <- newServer
   putStrLn "Waiting for connections\n"
+  -- readytoclose close properly
   forever $ do 
     (handle, host, port) <- accept sock
     putStrLn $ "Connection accepted: "++ host ++ "\n"
     forkFinally (runConn handle fileList portNum) (\_ -> hClose handle)
  
-openFileandSend :: Handle -> FileList -> String -> String ->IO() 
-openFileandSend clientHandle fileList filename clientName = do
-    fileExist <- addToFileListRead clientHandle filename fileList clientName
+openFileandSend :: Handle -> FileList -> String -> Int -> IO() 
+openFileandSend clientHandle fileList filename clientPort = do
+    putStrLn "checking file exist"
+    fileExist <- addToFileListRead clientHandle filename fileList clientPort ----STUCK
+    putStrLn $ "file exist: " ++ (show fileExist)
     if fileExist
         then do
             contents <- readFile filename
@@ -134,27 +130,34 @@ openFileandSend clientHandle fileList filename clientName = do
             putStrLn reply
             hPutStrLn clientHandle reply
 
-openFileandSend' :: Handle -> FileList -> String -> IO() --not in use?
-openFileandSend' clientHandle fileList fileName = do
+openFileandSend' :: Int -> FileList -> String -> IO() 
+openFileandSend' clientPort fileList fileName = do
+  clientHandle <- connectTo "localhost" (PortNumber (fromIntegral clientPort))
+  putStrLn "updating client cache"
+  hPutStrLn clientHandle $ "Hi "  ++ fileName
   hPutStrLn clientHandle $ "UPDATE "  ++ fileName
-  response <- hGetLine clientHandle
-  case words response of
-    ["READY"] -> do
-      contents <- readFile fileName
-      putStrLn $ "Updated file contents are: \n" ++ contents
-      hPutStrLn clientHandle (contents ++ "\n!EOF!")
-    _-> do 
-      error "Client not ready to recieve cache update"
+  loop clientHandle fileName
+  where
+    loop clientHandle fileName = do
+      response <- hGetLine clientHandle -- not getting response?
+      case words response of
+        ["READY", _] -> do -- fileName
+          contents <- readFile fileName
+          putStrLn $ "Updated file contents are: \n" ++ contents
+          hPutStrLn clientHandle (contents ++ "\n!EOF!")
+        _-> do
+          putStrLn $ "not Ready but: " ++ response
+          loop clientHandle fileName
     
   
-writeFileList :: Handle -> String -> String -> String -> FileList -> IO()
-writeFileList handle fileName fileContents clientName fileList = do
-  addToFileListWrite handle fileName fileList clientName
+writeFileList :: Handle -> String -> String -> Int -> FileList -> IO()
+writeFileList handle fileName fileContents clientPort fileList = do
+  addToFileListWrite handle fileName fileList clientPort
   writeFileandClose fileName fileContents 
-  updateClientCache fileList fileName clientName
+  updateClientCache fileList fileName clientPort
   return()
 
-updateClientCache :: FileList -> String -> String ->IO()
+updateClientCache :: FileList -> String -> Int ->IO()
 updateClientCache fileList fileName hasUpdatedVer = do
   list <- atomically $ readTVar fileList
   case M.lookup fileName list of
@@ -164,8 +167,9 @@ updateClientCache fileList fileName hasUpdatedVer = do
     Just aFile -> do
       cacheList <- atomically $ readTVar (cachedBy aFile)
       let oldCaches = M.delete hasUpdatedVer cacheList
-      let handles = M.elems oldCaches
-      mapM_ (\x -> openFileandSend' x fileList fileName) handles 
+      let ports = M.keys oldCaches
+      putStrLn (show ports)
+      mapM_ (\x -> openFileandSend' x fileList fileName) ports 
 
 
 writeFileandClose :: String -> String-> IO() 
@@ -175,50 +179,59 @@ writeFileandClose fileName toWrite = do
   hClose fileHandle
   putStrLn "Written to file"
 
-addToFileListWrite :: Handle -> String -> FileList -> String -> IO()
-addToFileListWrite handle fileName fileList clientName = atomically $ do
-  list <- readTVar fileList
+addToFileListWrite :: Handle -> String -> FileList -> Int -> IO()
+addToFileListWrite handle fileName fileList clientPort = do
+  list <- atomically $ readTVar fileList
   case M.lookup fileName list of 
     Nothing -> do --new file
-      file <- newFile handle fileName clientName
-      modifyTVar (fileVersion file) (add 1)
+      putStrLn "add nothing"
+      file <- atomically $ newFile handle fileName clientPort
+      atomically $ modifyTVar (fileVersion file) (add 1)
       let addList = M.insert fileName file list
-      writeTVar fileList addList
-      cacheList <- readTVar (cachedBy file)
-      let addCacheList = M.insert clientName handle cacheList --do i do this twice?
-      writeTVar (cachedBy file) addCacheList
+      atomically $ writeTVar fileList addList
+      -- cacheList <- readTVar (cachedBy file)
+      -- let addCacheList = M.insert clientPort handle cacheList --do i do this twice?
+      -- writeTVar (cachedBy file) addCacheList
     Just aFile -> do --exising file 
-      cacheList <- readTVar (cachedBy aFile)
-      case M.lookup clientName cacheList of
+      putStrLn "add just"
+      cacheList <- atomically $ readTVar (cachedBy aFile)
+      case M.lookup clientPort cacheList of
         Nothing -> do -- add client to list
-          modifyTVar (fileVersion aFile) (add 1)
-          ver <- readTVar (fileVersion aFile) 
-          let addCacheList = M.insert clientName handle cacheList
-          writeTVar (cachedBy aFile) addCacheList
-        Just aClient -> --update verion number
-          modifyTVar (fileVersion aFile) (add 1)
+          putStrLn "add just nothing"
+          atomically $ modifyTVar (fileVersion aFile) (add 1)
+          ver <- atomically $ readTVar (fileVersion aFile) 
+          let addCacheList = M.insert clientPort handle cacheList
+          atomically $ writeTVar (cachedBy aFile) addCacheList
+        Just aClient -> do--update verion number
+          putStrLn "add just just"
+          atomically $modifyTVar (fileVersion aFile) (add 1)
       
-addToFileListRead :: Handle -> String -> FileList -> String -> IO Bool
-addToFileListRead handle fileName fileList clientName = atomically $ do
-  list <- readTVar fileList
+addToFileListRead :: Handle -> String -> FileList -> Int -> IO Bool
+addToFileListRead handle fileName fileList clientPort = do
+  list <- atomically $ readTVar fileList
   case M.lookup fileName list of 
     Nothing -> do --file does not exist
+      putStrLn "in Nothing"
       error "Cannot open a file that does not exist"
       return False
     Just aFile -> do --exising file 
-      cacheList <- readTVar (cachedBy aFile)
-      case M.lookup clientName cacheList of
+      putStrLn "in Just"
+      cacheList <- atomically $ readTVar (cachedBy aFile) -- stuck here
+      putStrLn $ "cache list: " ++ (show cacheList)
+      case M.lookup clientPort cacheList of
         Nothing -> do -- add client to list
-          let addCacheList = M.insert clientName handle cacheList
-          writeTVar (cachedBy aFile) addCacheList
+          putStrLn "in Just Nothin"
+          let addCacheList = M.insert clientPort handle cacheList
+          atomically $ writeTVar (cachedBy aFile) addCacheList
           return True
-        Just aClient -> --update verion number
+        Just aClient -> do --update verion number
+          putStrLn "in Just Just"
           return True
 
 
-newFile :: Handle -> String -> String -> STM File
-newFile handle fileName clientName = do
-  cacheList <- newTVar $ M.insert clientName handle M.empty
+newFile :: Handle -> String -> Int -> STM File
+newFile handle fileName clientPort = do
+  cacheList <- newTVar $ M.insert clientPort handle M.empty
   vers <- newTVar 0
   return File { fileVersion = vers
               , cachedBy = cacheList
@@ -226,3 +239,12 @@ newFile handle fileName clientName = do
 
 add :: Int -> Int -> Int 
 add x y = x+y
+
+-- readytoclose :: IO()
+-- readytoclose = do 
+--     closeNow <- getLine
+--     case words closeNow of
+--         ["Kill"] -> do
+--             exitSuccess
+--         [_] -> do
+--             readytoclose

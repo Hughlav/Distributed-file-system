@@ -31,7 +31,7 @@ numServ :: Int
 numServ = 2
 
 portNum :: Int
-portNum = 9111
+portNum = 6725
 
 
 main :: IO()

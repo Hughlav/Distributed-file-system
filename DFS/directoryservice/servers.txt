@@ -1,2 +1,2 @@
-fileserverA 5600
-fileserverB 5601
+fileserverA 7430
+fileserverB 7431

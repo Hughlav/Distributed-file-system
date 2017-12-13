@@ -27,14 +27,12 @@ data Room = Room
 newServer :: IO Server
 newServer = newTVarIO M.empty
   
-portUpdate :: Int
-portUpdate = 5566
 
 portNumLocking :: Int
-portNumLocking = 5646   
+portNumLocking = 5645   
 
-runConn :: Handle -> String -> IO ()
-runConn handle clientName = do
+runConn :: Handle -> String -> Int -> IO ()
+runConn handle clientName updatePort = do
   hSetNewlineMode handle universalNewlineMode
   hSetBuffering handle NoBuffering
   readNxt
@@ -47,7 +45,7 @@ runConn handle clientName = do
       command <- getLine  
       case words command of
         ["Open", fileName] -> do
-          readFileandCache handle fileName clientName --check if i have file cached
+          readFileandCache handle fileName clientName updatePort --check if i have file cached
           putStrLn "File Cahced"
           readNxt
         ["Write", fileName] -> do
@@ -57,26 +55,26 @@ runConn handle clientName = do
             then do -- file cached
               putStrLn "Ready to update local copy. Enter Replace or Append"
               reply <- getLine
-              replaceOrAppend reply fileName handle clientName
+              replaceOrAppend reply fileName handle clientName updatePort
               readNxt
             else do -- new file
-              readFileandCache handle fileName clientName
+              readFileandCache handle fileName clientName updatePort
               checkNew' <- doesFileExist fileName
               if checkNew'
                 then do
                   putStrLn "That file already existed. Do you want to Replace or Append"
                   reply <- getLine
-                  replaceOrAppend reply fileName handle clientName
+                  replaceOrAppend reply fileName handle clientName updatePort
                   readNxt
                 else do 
                   putStrLn "Creating new file.\n Please enter contents. \nEnter !EOF! on final line to indicate the end of the file."
                   let fileStr = ""
                   fileStr <- myLoop fileStr 
-                  writeNewFileandCache handle fileName fileStr clientName 
+                  writeNewFileandCache handle fileName fileStr clientName updatePort
                   readNxt
           readNxt
         ["Close", fileName] -> do
-          closeFileonServer handle fileName clientName
+          closeFileonServer handle fileName clientName updatePort
           readNxt
         ["Kill"] ->
           exitSuccess
@@ -89,19 +87,19 @@ runConn handle clientName = do
           putStrLn "Options are: \"Open\" \"Write\" \"Close\" \"Kill\" " 
           readNxt
 
-replaceOrAppend :: String -> String -> Handle -> String -> IO()
-replaceOrAppend reply fileName handle clientName = do
+replaceOrAppend :: String -> String -> Handle -> String -> Int -> IO()
+replaceOrAppend reply fileName handle clientName updatePort = do
   case words reply of 
     ["Replace"] -> do
       putStrLn "Replacing file conents.\n Please enter contents. \nEnter !EOF! on final line to indicate the end of the file."
       let fileStr = ""
       fileStr <- myLoop fileStr 
-      writeNewFileandCache handle fileName fileStr clientName
+      writeNewFileandCache handle fileName fileStr clientName updatePort
     ["Append"] -> do
       putStrLn "Adding to file conents.\nPlease enter contents. \nEnter !EOF! on final line to indicate the end of the file."
       let fileStr = ""
       fileStr <- myLoop fileStr
-      appendFileandCache handle fileName fileStr clientName
+      appendFileandCache handle fileName fileStr clientName updatePort
     [_] -> do
       putStrLn "Unrecognised command. aborting write."
       
@@ -133,32 +131,33 @@ myLoop fileStr  = do
     else do 
       myLoop (fileStr ++ "\n" ++ file) 
 
-closeFileonServer :: Handle -> String -> String -> IO()
-closeFileonServer handle fileName clientsName = do
+closeFileonServer :: Handle -> String -> String -> Int -> IO()
+closeFileonServer handle fileName clientsName updatePort = do
   let requestClose = "CLOSE " ++ fileName
   hPutStrLn handle requestClose
   portServ <- hGetLine handle --check for error
-  sendClose portServ fileName clientsName
+  sendClose portServ fileName clientsName updatePort
     
-sendClose :: String -> String -> String -> IO()
-sendClose portServ fileName clientsName = do 
+sendClose :: String -> String -> String -> Int -> IO()
+sendClose portServ fileName clientsName updatePort = do 
   handleServ <- connectTo "localhost" (PortNumber (fromIntegral (read portServ)))
-  let request = "CLOSE " ++ fileName ++ " " ++ clientsName
+  let request = "CLOSE " ++ fileName ++ " " ++ (show updatePort)
   hPutStrLn handleServ request
   putStrLn $ "File " ++ fileName ++ " Closed"
 
 
-openSocket :: Int -> String -> IO()
-openSocket portNum clientName = withSocketsDo $ do
+openSocket :: Int -> String -> Int -> IO()
+openSocket portNum clientName updatePort = withSocketsDo $ do
   handle <- connectTo "localhost" (PortNumber (fromIntegral portNum)) 
   putStrLn "Connected to server\n"
-  runConn handle clientName
-  forkIO (awaitUpdate)
+  forkIO (awaitUpdate updatePort)
+  putStrLn "running con"
+  runConn handle clientName updatePort
+  return()
 
-      
      
-readFileandCache :: Handle -> String -> String -> IO()
-readFileandCache directoryHandle fileName clientsName = do
+readFileandCache :: Handle -> String -> String ->  Int -> IO()
+readFileandCache directoryHandle fileName clientsName updatePort = do
   let requestDirectoryService = "OPEN " ++ fileName
   hPutStrLn directoryHandle requestDirectoryService
   portServ <- hGetLine directoryHandle
@@ -168,7 +167,7 @@ readFileandCache directoryHandle fileName clientsName = do
     else do
       handle <- connectTo "localhost" (PortNumber (fromIntegral (read portServ)))
       putStrLn "Connected to fileServer, opening file"
-      let request = "OPEN " ++ fileName ++ " " ++ clientsName
+      let request = "OPEN " ++ fileName ++ " " ++ (show updatePort)
       hPutStrLn handle request
       --putStrLn "Waiting for file"
       let fileStr = ""
@@ -184,8 +183,8 @@ readFileandCache directoryHandle fileName clientsName = do
             else do 
               myLoop (fileStr ++ "\n" ++ file) handle
     
-writeNewFileandCache :: Handle -> String -> String -> String -> IO()
-writeNewFileandCache handle fileName contents clientName = do 
+writeNewFileandCache :: Handle -> String -> String -> String -> Int -> IO()
+writeNewFileandCache handle fileName contents clientName updatePort = do 
   putStrLn "getting port of server"
   let request = "WRITE " ++ fileName ++ " " ++ clientName --contents with no space
   hPutStrLn handle request
@@ -193,22 +192,23 @@ writeNewFileandCache handle fileName contents clientName = do
   putStrLn $ "File: " ++ fileName ++ " sent to cache"
   writeFileandClose fileName contents
   handleServ <- connectTo "localhost" (PortNumber (fromIntegral (read portServ)))
-  hPutStrLn handleServ request
+  let request' = "WRITE " ++ fileName ++ " " ++ (show updatePort)
+  hPutStrLn handleServ request'
   reply <- hGetLine handleServ
   case words reply of
     ["READY"] -> do
       hPutStrLn handleServ (contents ++ "\n!EOF!")
       putStrLn $ "File: " ++ fileName ++ " sent to a fileserver"
       lockFile fileName
-      forkFinally (awaitUpdate handleServ) (\_ -> hClose handleServ) -- fork thread for getting updates on cached file
+      --forkFinally (awaitUpdate handleServ) (\_ -> hClose handleServ) -- fork thread for getting updates on cached file
       return()
     [_] -> do 
       putStrLn $ "Fileserver says " ++ reply
       putStrLn "Fileserver not ready for file. aborting"
       return()
     
-appendFileandCache :: Handle -> String -> String -> String -> IO()   
-appendFileandCache handle fileName fileStr clientName = do
+appendFileandCache :: Handle -> String -> String -> String -> Int -> IO()   
+appendFileandCache handle fileName fileStr clientName updatePort = do
   putStrLn "getting port of server"
   let request = "WRITE " ++ fileName ++ " " ++ clientName --contents with no space
   hPutStrLn handle request
@@ -217,7 +217,8 @@ appendFileandCache handle fileName fileStr clientName = do
   appendFileandClose fileName fileStr
   handleServ <- connectTo "localhost" (PortNumber (fromIntegral (read portServ)))
   contentNow <- readFile fileName
-  hPutStrLn handleServ request
+  let request' = "WRITE " ++ fileName ++ " " ++ (show updatePort)
+  hPutStrLn handleServ request'
   reply <- hGetLine handleServ
   case words reply of
     ["READY"] -> do
@@ -242,9 +243,9 @@ appendFileandClose fileName toAdd = do
   hPutStr fileHandle toAdd
   hClose fileHandle
 
-awaitUpdate :: IO()
-openSocket portNum = withSocketsDo $ do
-  sock <- listenOn (PortNumber (fromIntegral portNum))
+awaitUpdate :: Int -> IO()
+awaitUpdate updatePort = withSocketsDo $ do
+  sock <- listenOn (PortNumber (fromIntegral updatePort))
   putStrLn "awaiting updates" --does not appear to actually wait.
   forever $ do 
     (handle, host, port) <- accept sock
@@ -253,14 +254,17 @@ openSocket portNum = withSocketsDo $ do
   
 runUpdate :: Handle -> IO()
 runUpdate handleUpdate = do
+  putStrLn "waiting for updates"
   myloop
   where
     myloop = do
-        update <- hGetLine handleServ
+        update <- hGetLine handleUpdate
+        hPutStrLn handleUpdate $ "Hi, sending update"
+        putStrLn $ "Update: " ++ update
         case words update of
           ["UPDATE", fileName] -> do
-            hPutStrLn handleServ  $ "READY " ++ fileName
-            updateFile fileName handleServ
+            hPutStrLn handleUpdate  $ "READY " ++ fileName
+            updateFile fileName handleUpdate
           _ -> do 
             putStrLn "Not UPDATE as expected"
             myloop

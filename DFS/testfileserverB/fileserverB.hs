@@ -1,8 +1,9 @@
 import FileServer
 
 portNum :: Int
-portNum = 5601
+portNum = 7431
+
 
 main :: IO()
 main = do 
-  openSocket portNum
+  openSocket portNum 

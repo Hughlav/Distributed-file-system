@@ -1,7 +1,7 @@
 {-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -fno-warn-missing-import-lists #-}
 {-# OPTIONS_GHC -fno-warn-implicit-prelude #-}
-module Paths_fileServer (
+module Paths_FileServer (
     version,
     getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir,
     getDataFileName, getSysconfDir
@@ -30,19 +30,19 @@ version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "/Users/HughLavery/Library/Haskell/bin"
-libdir     = "/Users/HughLavery/Library/Haskell/ghc-8.2.1-x86_64/lib/fileServer-0.1.0.0"
+libdir     = "/Users/HughLavery/Library/Haskell/ghc-8.2.1-x86_64/lib/FileServer-0.1.0.0"
 dynlibdir  = "/Users/HughLavery/Library/Haskell/ghc-8.2.1-x86_64/lib/x86_64-osx-ghc-8.2.1"
-datadir    = "/Users/HughLavery/Library/Haskell/share/ghc-8.2.1-x86_64/fileServer-0.1.0.0"
-libexecdir = "/Users/HughLavery/Library/Haskell/libexec/x86_64-osx-ghc-8.2.1/fileServer-0.1.0.0"
+datadir    = "/Users/HughLavery/Library/Haskell/share/ghc-8.2.1-x86_64/FileServer-0.1.0.0"
+libexecdir = "/Users/HughLavery/Library/Haskell/libexec/x86_64-osx-ghc-8.2.1/FileServer-0.1.0.0"
 sysconfdir = "/Users/HughLavery/Library/Haskell/etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
-getBinDir = catchIO (getEnv "fileServer_bindir") (\_ -> return bindir)
-getLibDir = catchIO (getEnv "fileServer_libdir") (\_ -> return libdir)
-getDynLibDir = catchIO (getEnv "fileServer_dynlibdir") (\_ -> return dynlibdir)
-getDataDir = catchIO (getEnv "fileServer_datadir") (\_ -> return datadir)
-getLibexecDir = catchIO (getEnv "fileServer_libexecdir") (\_ -> return libexecdir)
-getSysconfDir = catchIO (getEnv "fileServer_sysconfdir") (\_ -> return sysconfdir)
+getBinDir = catchIO (getEnv "FileServer_bindir") (\_ -> return bindir)
+getLibDir = catchIO (getEnv "FileServer_libdir") (\_ -> return libdir)
+getDynLibDir = catchIO (getEnv "FileServer_dynlibdir") (\_ -> return dynlibdir)
+getDataDir = catchIO (getEnv "FileServer_datadir") (\_ -> return datadir)
+getLibexecDir = catchIO (getEnv "FileServer_libexecdir") (\_ -> return libexecdir)
+getSysconfDir = catchIO (getEnv "FileServer_sysconfdir") (\_ -> return sysconfdir)
 
 getDataFileName :: FilePath -> IO FilePath
 getDataFileName name = do
