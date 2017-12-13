@@ -18,8 +18,10 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Main
-  other-modules:       Client
+                     , Client
                      , FileServer
+  -- other-modules:       Client
+  --                    , FileServer
   -- other-extensions:    
   build-depends:       base
                      , containers

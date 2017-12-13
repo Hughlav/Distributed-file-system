@@ -2,13 +2,13 @@
 import Client
 
 portNum :: Int
-portNum = 6725
+portNum = 6626
 
 clientName :: String
 clientName = "clientB"
 
 portUpdate :: Int
-portUpdate = 6516
+portUpdate = 9908
 
 main :: IO()
 main = do 

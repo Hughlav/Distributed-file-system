@@ -1,14 +1,14 @@
 
 import Client
 
-portNum :: Int
-portNum = 6725
+portNum :: Int --for directory service
+portNum = 6626
 
 clientName :: String
 clientName = "clientA"
 
 portUpdate :: Int
-portUpdate = 6590
+portUpdate = 9909
 
 main :: IO()
 main = do 
