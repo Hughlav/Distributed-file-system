@@ -49,12 +49,26 @@
   (major1) == 2 && (major2) <  6 || \
   (major1) == 2 && (major2) == 6 && (minor) <= 3)
 
+/* package split-0.2.3.2 */
+#define VERSION_split "0.2.3.2"
+#define MIN_VERSION_split(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 3)
+
 /* package stm-2.4.4.1 */
 #define VERSION_stm "2.4.4.1"
 #define MIN_VERSION_stm(major1,major2,minor) (\
   (major1) <  2 || \
   (major1) == 2 && (major2) <  4 || \
   (major1) == 2 && (major2) == 4 && (minor) <= 4)
+
+/* package text-1.2.2.2 */
+#define VERSION_text "1.2.2.2"
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 2)
 
 /* tool alex-3.2.1 */
 #define TOOL_VERSION_alex "3.2.1"
@@ -133,7 +147,7 @@
   (major1) == 0 && (major2) <  29 || \
   (major1) == 0 && (major2) == 29 && (minor) <= 2)
 
-#define CURRENT_COMPONENT_ID "DFS-0.1.0.0-8jVWvB4mTg1IUkCEEYmdc9"
+#define CURRENT_COMPONENT_ID "DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR"
 
-#define CURRENT_PACKAGE_KEY "DFS-0.1.0.0-8jVWvB4mTg1IUkCEEYmdc9"
+#define CURRENT_PACKAGE_KEY "DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR"
 

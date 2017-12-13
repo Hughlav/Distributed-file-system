@@ -1,7 +1,7 @@
 import FileServer
 
 portNum :: Int
-portNum = 9471
+portNum = 17690
 
 
 main :: IO()

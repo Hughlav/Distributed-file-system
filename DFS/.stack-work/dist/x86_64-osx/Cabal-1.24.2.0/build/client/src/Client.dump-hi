@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-12-13 20:01:52.966727 UTC
+2017-12-13 21:45:56.319176 UTC
 
-interface DFS-0.1.0.0-8jVWvB4mTg1IUkCEEYmdc9:Client 8002
-  interface hash: 6edd0b090c4f3bddd150c68d9ec4e622
-  ABI hash: 492cb8f127e4ee70ccf1d45657609dcf
-  export-list hash: 5c62f4af5e44b74fd19cffa2fe483df1
+interface DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR:Client 8002
+  interface hash: 8d12927afea0505773c4642f87b1d4e3
+  ABI hash: 6661f4d7539e0eb6653c332d7be743ba
+  export-list hash: d8edd7469e88b2e6b2c0c554fcaa0530
   orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
   flag hash: 4c0aadf0f65e559a2bd2b36fba2fd9f6
   sig of: Nothing
@@ -83,22 +83,22 @@ import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socke
 import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socket.Internal 9f052186d90733a29fe9bf6bf8921c1c
 import  -/  network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz:Network.Socket.Types 2eb8a83dc42cc86a12e652ce3294cbda
 import  -/  stm-2.4.4.1@stm-2.4.4.1-JQn4hNPyYjP5m9AcbI88Ve:Control.Concurrent.STM 3662559905a40ae5adbc3e935ac706c8
-d892408db1cc3e865d8861c0071fca50
+493a23d9ba0b3ea39166cf4ebc07fd08
   $trModule :: GHC.Types.Module
   {- HasNoCafRefs, Strictness: m,
      Unfolding: (GHC.Types.Module
                    Client.$trModule2
                    Client.$trModule1) -}
-dc5464f3f9d0b3b3e79a64dfe0c525c8
+b154f2f90201ab0e8b31c936dc31de88
   $trModule1 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS "Client"#) -}
-a73ba7f3450148e37465fd6070713b6d
+569ca169236544b69c1b299490fcd2fa
   $trModule2 :: GHC.Types.TrName
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
-                   "DFS-0.1.0.0-8jVWvB4mTg1IUkCEEYmdc9"#) -}
-aa1a9417665f59b444a2848d7ed0bded
+                   "DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR"#) -}
+c53787b02b8ff8f559db46f98098e4ac
   $wawaitUpdate ::
     Foreign.C.Types.CInt
     -> Network.Socket.Types.Family
@@ -152,7 +152,7 @@ aa1a9417665f59b444a2848d7ed0bded
                      a' ipv4 } } } }
                  } in
                  a' w) -}
-b00a02cf6ccffca2c6de90b4d86ffa19
+0f92dfaac7d7c74f48572d471813b64d
   $wcloseFileonServer ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -179,7 +179,7 @@ b00a02cf6ccffca2c6de90b4d86ffa19
                          ->_R Sym (GHC.Types.N:IO[0] <GHC.Base.String>_R))
                         ipv of ds2 { (#,#) ipv2 ipv3 ->
                  Client.$wsendClose ipv3 w1 w2 ipv2 } }) -}
-feb152498035c813e9d6900d620581a2
+b9237614445bd770b8b3e516da4395e0
   $wreadFileandCache ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -187,7 +187,7 @@ feb152498035c813e9d6900d620581a2
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 4, Strictness: <S,U><L,U><L,1*U(U)><S,U>, Inline: [0] -}
-5a16a69b061be2b879677e5f62ca0411
+ff4ce293d62754b1a5769437e0f3afda
   $wsendClose ::
     GHC.Base.String
     -> GHC.Base.String
@@ -256,7 +256,7 @@ feb152498035c813e9d6900d620581a2
                       (GHC.Base.++ @ GHC.Types.Char w1 Client.closeFileonServer2))
                    GHC.Types.True
                    ipv2 } }) -}
-311b9018dad9279c345b26b716bf8a64
+a3256589a5e129be394bf12086384bb7
   appendFileandCache ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -274,7 +274,7 @@ feb152498035c813e9d6900d620581a2
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-879cd6e86364437583f82b121839ff9e
+a0ce4cb6529e327b31cb81250e7d3af8
   appendFileandCache1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -284,7 +284,7 @@ feb152498035c813e9d6900d620581a2
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 6, Strictness: <L,U><L,U><L,1*U><L,U><L,1*U(U)><S,U> -}
-24cec2e81989c2d302adea7ede9864c0
+2ad7bf374516676caf3f6b0f700c99d2
   appendFileandClose ::
     GHC.Base.String -> GHC.Base.String -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><L,1*U><S,U>,
@@ -294,7 +294,7 @@ feb152498035c813e9d6900d620581a2
                 (<GHC.Base.String>_R
                  ->_R <GHC.Base.String>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-5b4740b657c78a0143e26cbc1e87fbf9
+3b5af0b6872859877ce9c08a108904f7
   appendFileandClose1 ::
     GHC.Base.String
     -> GHC.Base.String
@@ -314,7 +314,7 @@ feb152498035c813e9d6900d620581a2
                         GHC.Types.False
                         ipv of ds2 { (#,#) ipv2 ipv3 ->
                  GHC.IO.Handle.hClose1 ipv1 ipv2 } }) -}
-99b68a832c8297ea04cf05c143f86a4e
+fecd4bd48fda9bcc4a16fa39b089c084
   awaitUpdate :: Network.Socket.Types.Socket -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <S(LSLLS(S)),U(U(U),U,U,U(U),U(U))><S,U>,
      Unfolding: InlineRule (0, True, True)
@@ -322,7 +322,7 @@ feb152498035c813e9d6900d620581a2
                   `cast`
                 (<Network.Socket.Types.Socket>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-548137f76dbd5ab2dcf17820bc183eab
+2a1548409d4f8b3e9a22fffa2c4e1e0d
   awaitUpdate1 ::
     Network.Socket.Types.Socket
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -335,7 +335,7 @@ feb152498035c813e9d6900d620581a2
                  case w of ww { Network.Socket.Types.MkSocket ww1 ww2 ww3 ww4 ww5 ->
                  case ww5 of ww6 { GHC.MVar.MVar ww7 ->
                  Client.$wawaitUpdate ww1 ww2 ww3 ww4 ww7 w1 } }) -}
-74a9916f441f5caf2ecc06fcba736229
+076a012e49f680bd98ee97cd177232db
   awaitUpdate2 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -410,7 +410,7 @@ feb152498035c813e9d6900d620581a2
                                       : ipv6 ipv7 -> $wfail ipv4 } } } } }
                  } in
                  myloop ipv3 ipv2 } }) -}
-588e52eb18a8da2865ec7d91eba588a8
+da94168fdc936da848ef5d656f7523c2
   awaitUpdate3 ::
     GHC.Base.String
     -> GHC.IO.Handle.Types.Handle
@@ -456,28 +456,28 @@ feb152498035c813e9d6900d620581a2
                         (GHC.Types.[] @ GHC.Types.Char)
                         eta of ds1 { (#,#) ipv ipv1 ->
                  System.IO.writeFile1 fileName ipv1 ipv }) -}
-13b080689d03e65915a9b28c6daa2fb9
+e7d5e4ef742d4f3343386b280d944aec
   awaitUpdate4 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "File Cache Updated!"#) -}
-01aa1b976fdc2fa6d5e0d3313eafd727
+1fd309f34df9bd5703335c7dca79f897
   awaitUpdate5 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "\n"#) -}
-39e9c8ab27c6b8fe74e14ed8194f1e09
+9d3da86c0719d4197a8f6ba095a1ff85
   awaitUpdate6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "!EOF!"#) -}
-40a378a44b5dae049c30ed99ac228f00
+5803a4f1d6c6437693174251322b74a2
   awaitUpdate7 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "UPDATE"#) -}
-30463ee1905a26ef79099609f1585a29
+10fa47a76080a911a39c7f115bcefd30
   awaitUpdate8 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "Not UPDATE as expected"#) -}
-6c6b20b63549b716f7e81fae8d22c8f1
+2ad0d57904955217f10906a5b7e1e56b
   awaitUpdate9 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "waiting for updates"#) -}
-6f95c1d995e841d05e31902d814356d1
+b1e25ccde9a669beee54b7acbbcd998d
   closeFileonServer ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -493,7 +493,7 @@ feb152498035c813e9d6900d620581a2
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-212d55d4b90bf8b75632c38e3462cd20
+b2fd2f55691c664ad059fd1fb9e0e60d
   closeFileonServer1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -510,16 +510,16 @@ feb152498035c813e9d6900d620581a2
                    (w3 :: GHC.Types.Int)
                    (w4 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Client.$wcloseFileonServer w w1 w3 w4) -}
-957f39b4681a5461b8a6653cb0aa69d1
+de26e3fa5d2b8cb94d28df922a8c829e
   closeFileonServer2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# " Closed"#) -}
-1e04398f65c9def8743b5539f3c7fc92
+4acf450e958aa6e5e63ff7032248527d
   closeFileonServer3 :: GHC.Integer.Type.Integer
   {- Strictness: x -}
-6eb4e3d502a7684eaaed5dd567180cd9
+9a06f823db731a57c60f4db212632659
   closeFileonServer4 :: GHC.Integer.Type.Integer
   {- Strictness: x -}
-dfb3c12980b4dfbe3267aa5a961e0b6c
+450991925ecbf296773619aca978f8d4
   closeFileonServer5 ::
     Text.ParserCombinators.ReadP.P GHC.Integer.Type.Integer
   {- Unfolding: (GHC.Read.$fReadInteger3
@@ -527,17 +527,17 @@ dfb3c12980b4dfbe3267aa5a961e0b6c
                    Text.ParserCombinators.ReadPrec.minPrec
                    @ GHC.Integer.Type.Integer
                    (Text.Read.readEither5 @ GHC.Integer.Type.Integer)) -}
-6b8a008a53a5e428569e4bdf358e7b6c
+ab82f5332406a95d40b748b4c1b59488
   closeFileonServer6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "localhost"#) -}
-f5806067cf161c102682fcb80614b5d4
+d93d7d142b7094d6debddb25d40680fc
   lockFile :: GHC.Base.String -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <L,U><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Client.lockFile1
                   `cast`
                 (<GHC.Base.String>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-ec2c630953c08d0c79b15257e8222fbc
+e79c2b88ae759effde516b2a2ed06592
   lockFile1 ::
     GHC.Base.String
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -559,11 +559,11 @@ ec2c630953c08d0c79b15257e8222fbc
                    (GHC.CString.unpackAppendCString# "LOCK "# fileName)
                    GHC.Types.True
                    ipv2 } }) -}
-cd47f66632c7fe6c60cfcec6f63380a2
+3dab1de88d3718473ec3fb316005445b
   lockFile2 :: Network.PortID
   {- Strictness: m2,
      Unfolding: (Network.PortNumber Client.lockFile3) -}
-b8a20e7cd6e1e9ae7e560e09ae2045a1
+f511269024857d827636688e5f075b5e
   lockFile3 :: Network.Socket.Types.PortNumber
   {- Unfolding: (case {__pkg_ccall network-2.6.3.2@network-2.6.3.2-IsLM4TXcLoRI0fmmBYVyQz htons GHC.Prim.Word#
                                                                                                 -> GHC.Prim.State#
@@ -576,11 +576,11 @@ b8a20e7cd6e1e9ae7e560e09ae2045a1
                  (GHC.Word.W16# (GHC.Prim.narrow16Word# ds1))
                    `cast`
                  (Sym (Network.Socket.Types.N:PortNumber[0])) }) -}
-a3c48b44038f2bf6a4ebec1628261361
+b2fc59e68dfb6603e390d2da055d8d5a
   lockFile4 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "telling lock server im done with file"#) -}
-1a8cfe48f47a3347f986d7dc843817eb
+985d3988bf2104ef0bcd0af28a0761de
   openSocket ::
     GHC.Types.Int
     -> GHC.Base.String -> GHC.Types.Int -> GHC.Types.IO ()
@@ -592,7 +592,7 @@ a3c48b44038f2bf6a4ebec1628261361
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-8b30d4f92beeb4427753787b893b13e8
+fd727e877f574b89bac458133fcdb88a
   openSocket1 ::
     GHC.Types.Int
     -> GHC.Base.String
@@ -659,7 +659,7 @@ a3c48b44038f2bf6a4ebec1628261361
                         ipv5
                         ipv6 of ds4 { (#,#) ipv8 ipv9 ->
                  (# ipv8, GHC.Tuple.() #) } } } } }) -}
-b0e4ea372d22a21faa1a9c1225f5a75e
+42b329f39469064ff081c05045069495
   openSocket2 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -669,14 +669,14 @@ b0e4ea372d22a21faa1a9c1225f5a75e
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 5,
      Strictness: <S,U><L,U><L,U(U)><L,U(U(U),A,A,A,U(U))><S,U> -}
-929426defbee8b68dc420ad0087717d5
+aff4eeedb24cad208648c6d0c16bd955
   openSocket3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "Connected to Directory Server"#) -}
-5763e58281635025dfd0fd07d403914b
+3521168e7f4568ecc07b2f7b97f4a6ac
   portNumLocking :: GHC.Types.Int
   {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 5545#) -}
-138d4205c6bf62c9ce7d0e40c1fbacd4
+0ad7255e5808ca2ba7d981c84c4bd4d3
   readFileandCache ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -692,7 +692,7 @@ b0e4ea372d22a21faa1a9c1225f5a75e
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-2d3ddbb751aafbcb9cb7c13a74052bfb
+2c1b1764fba487a91a3c6af7731edb6d
   readFileandCache1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -709,7 +709,7 @@ b0e4ea372d22a21faa1a9c1225f5a75e
                    (w3 :: GHC.Types.Int)
                    (w4 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Client.$wreadFileandCache w w1 w3 w4) -}
-33aeee70d80fa475fe0e58d34bf9f1b0
+993aeba7b4b4278d297fcadb2005d4a6
   readFromTerminal :: GHC.Base.String -> GHC.Types.IO GHC.Base.String
   {- Arity: 2, Strictness: <L,U><S,U>,
      Unfolding: InlineRule (0, True, True)
@@ -717,13 +717,13 @@ b0e4ea372d22a21faa1a9c1225f5a75e
                   `cast`
                 (<GHC.Base.String>_R
                  ->_R Sym (GHC.Types.N:IO[0] <GHC.Base.String>_R)) -}
-845d2d7e13795fc5938861cdad0ddc88
+1772d2f4502d30dfb1cf0ab9545b76f4
   readFromTerminal1 ::
     GHC.Base.String
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, GHC.Base.String #)
   {- Arity: 2, Strictness: <L,U><S,U> -}
-07ada3b58f765bf96e94484ce11b7a52
+ced7ad6280b67241fcc6acde79f7e283
   replaceOrAppend ::
     GHC.Base.String
     -> GHC.Base.String
@@ -741,7 +741,7 @@ b0e4ea372d22a21faa1a9c1225f5a75e
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-c8b82e2b0050dc4539385649610390b0
+50b54752abb583940cea3f3f50c3430d
   replaceOrAppend1 ::
     GHC.Base.String
     -> GHC.Base.String
@@ -829,16 +829,16 @@ c8b82e2b0050dc4539385649610390b0
                                   updatePort
                                   ipv2 } }
                              : ipv ipv1 -> $wfail eta } } }) -}
-ad5e0801cc5eff0c37236b00ecee2fc0
+c2aa6e702b1e504e44943f4cc2e69265
   replaceOrAppend2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "Adding to file conents.\n\
                    \Please enter contents. \n\
                    \Enter !EOF! on final line to indicate the end of the file."#) -}
-8c7910aea4fc660d07b3f0f172b1ea1e
+8fe11aedc7963371006592aca0c45d19
   replaceOrAppend3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Append"#) -}
-bb7b389917d3dc64f2fb49b6fe69a16b
+70e94e6d98b0c1e44a901f8f1b7a945d
   replaceOrAppend4 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -848,30 +848,30 @@ bb7b389917d3dc64f2fb49b6fe69a16b
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 6, Strictness: <L,U><L,U><L,U><L,U><L,1*U(U)><S,U> -}
-8d69ba63e2a876a0fc65db5e753b290a
+60a9f90fcc313dc944be0443c8299860
   replaceOrAppend5 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "Replacing file conents.\n\
                    \Please enter contents. \n\
                    \Enter !EOF! on final line to indicate the end of the file."#) -}
-5f8f4b3fbcb543cc7b5c214246d421eb
+2efb1714d86a0f5275f3a4919956e644
   replaceOrAppend6 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Replace"#) -}
-74c588205c52fa5632c083d5b1065c86
+fb5cee7eab60d87c28aa148ae6596382
   replaceOrAppend7 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "Unrecognised command. aborting write."#) -}
-e6b61ea426db964b894230c8fbadc50a
+0f8a03bebf376281b82521af3f07935d
   replaceOrAppend8 :: GHC.Types.IO ()
   {- Strictness: x -}
-1fd9d9ca3132daa469c8fa60d59b6608
+cd13195e22ca7d090584283711f028d4
   requestLock :: GHC.Base.String -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <L,U><S,U>,
      Unfolding: InlineRule (0, True, True)
                 Client.requestLock1
                   `cast`
                 (<GHC.Base.String>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-c991c8f255af4a174af77b5190722d13
+3c6bb75ec182eb232e898131b6cc755e
   requestLock1 ::
     GHC.Base.String
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -896,13 +896,13 @@ c991c8f255af4a174af77b5190722d13
                         GHC.Types.True
                         ipv2 of ds3 { (#,#) ipv4 ipv5 ->
                  Client.requestLock2 ipv1 ipv4 } } }) -}
-286d299503c7998157914c8425fd9559
+73044be6125a509fda807ccbe2637d68
   requestLock2 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
   {- Arity: 2, Strictness: <S,U><S,U> -}
-ee6c5bc41efe37a36b270cb56ca74604
+ffcc40f3c3f436c79315fd99a5ae27a4
   runConn ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -919,7 +919,7 @@ ee6c5bc41efe37a36b270cb56ca74604
                  ->_R <GHC.Types.Int>_R
                  ->_R <Network.Socket.Types.Socket>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-d7cabf931bc7041f05451e2a7001cd8f
+84dc5d6770cea76b032fce9048f97d78
   runUpdate :: GHC.IO.Handle.Types.Handle -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <L,U><S,U>,
      Unfolding: InlineRule (0, True, True)
@@ -927,7 +927,7 @@ d7cabf931bc7041f05451e2a7001cd8f
                   `cast`
                 (<GHC.IO.Handle.Types.Handle>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-6caa41bdbb61a50796f5e6053326b3b5
+014377f15c125740bf858f3381657936
   sendClose ::
     GHC.Base.String
     -> GHC.Base.String
@@ -943,7 +943,7 @@ d7cabf931bc7041f05451e2a7001cd8f
                  ->_R <GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-5893284de7a258c03c1d9432a15fd26e
+da658e76c1675f6d4771a66ed51084cd
   sendClose1 ::
     GHC.Base.String
     -> GHC.Base.String
@@ -960,7 +960,7 @@ d7cabf931bc7041f05451e2a7001cd8f
                    (w3 :: GHC.Types.Int)
                    (w4 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  Client.$wsendClose w w1 w3 w4) -}
-3cb0aacc5f5da0bdb5f71b8048c77d2c
+26777981e196c2f7ddfe3390af8a6f2c
   updateFile ::
     GHC.Base.String -> GHC.IO.Handle.Types.Handle -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><S,U><S,U>,
@@ -970,7 +970,7 @@ d7cabf931bc7041f05451e2a7001cd8f
                 (<GHC.Base.String>_R
                  ->_R <GHC.IO.Handle.Types.Handle>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-cc5f462199ccb01d6698dde644b00b43
+08dc7b38ec19f4a2f156271c61ec9f39
   writeFileandClose ::
     GHC.Base.String -> GHC.Base.String -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><L,1*U><S,U>,
@@ -980,7 +980,7 @@ cc5f462199ccb01d6698dde644b00b43
                 (<GHC.Base.String>_R
                  ->_R <GHC.Base.String>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-0b7334c7ce92610e5f60221e7240431e
+a8501c9576b47c13e6fa59b2ab63758b
   writeFileandClose1 ::
     GHC.Base.String
     -> GHC.Base.String
@@ -1005,10 +1005,10 @@ cc5f462199ccb01d6698dde644b00b43
                    Client.writeFileandClose2
                    GHC.Types.True
                    ipv4 } } }) -}
-1a4b6e009e5d744883bacbe905b0e84f
+4a086022d2deda197f42de40e6e3f5a1
   writeFileandClose2 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "Written to file"#) -}
-d96b021bbb17af36bae6e783064f946c
+153e4b024d19dfa17243bc417ce460bf
   writeNewFileandCache ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String

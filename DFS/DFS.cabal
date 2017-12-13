@@ -30,6 +30,8 @@ library
                      , stm
                      , hashable
                      , directory
+                     , text
+                     , split
   hs-source-dirs:      directoryservice
                      , fileServer
                      , client/src

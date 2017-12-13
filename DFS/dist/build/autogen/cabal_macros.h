@@ -88,6 +88,28 @@
   (major1) == 1 && (major2) == 3 && (minor) <= 0)
 #endif /* MIN_VERSION_directory */
 
+/* package text-1.2.2.2 */
+#ifndef VERSION_text
+#define VERSION_text "1.2.2.2"
+#endif /* VERSION_text */
+#ifndef MIN_VERSION_text
+#define MIN_VERSION_text(major1,major2,minor) (\
+  (major1) <  1 || \
+  (major1) == 1 && (major2) <  2 || \
+  (major1) == 1 && (major2) == 2 && (minor) <= 2)
+#endif /* MIN_VERSION_text */
+
+/* package split-0.2.3.2 */
+#ifndef VERSION_split
+#define VERSION_split "0.2.3.2"
+#endif /* VERSION_split */
+#ifndef MIN_VERSION_split
+#define MIN_VERSION_split(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_split */
+
 /* tool alex-3.2.1 */
 #ifndef TOOL_VERSION_alex
 #define TOOL_VERSION_alex "3.2.1"
@@ -210,10 +232,10 @@
 #endif /* MIN_TOOL_VERSION_runghc */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "DFS-0.1.0.0-7806iKMHFeWJW1Gs1TQeNA"
+#define CURRENT_PACKAGE_KEY "DFS-0.1.0.0-9EIDaCkm783EdtetgQznyS"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "DFS-0.1.0.0-7806iKMHFeWJW1Gs1TQeNA"
+#define CURRENT_COMPONENT_ID "DFS-0.1.0.0-9EIDaCkm783EdtetgQznyS"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

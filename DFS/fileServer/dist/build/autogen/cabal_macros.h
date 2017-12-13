@@ -77,6 +77,17 @@
   (major1) == 1 && (major2) == 2 && (minor) <= 6)
 #endif /* MIN_VERSION_hashable */
 
+/* package split-0.2.3.2 */
+#ifndef VERSION_split
+#define VERSION_split "0.2.3.2"
+#endif /* VERSION_split */
+#ifndef MIN_VERSION_split
+#define MIN_VERSION_split(major1,major2,minor) (\
+  (major1) <  0 || \
+  (major1) == 0 && (major2) <  2 || \
+  (major1) == 0 && (major2) == 2 && (minor) <= 3)
+#endif /* MIN_VERSION_split */
+
 /* tool alex-3.2.1 */
 #ifndef TOOL_VERSION_alex
 #define TOOL_VERSION_alex "3.2.1"
@@ -199,10 +210,10 @@
 #endif /* MIN_TOOL_VERSION_runghc */
 
 #ifndef CURRENT_PACKAGE_KEY
-#define CURRENT_PACKAGE_KEY "FileServer-0.1.0.0-Jw5eJ9ppmJmJsMWc1qUD0m"
+#define CURRENT_PACKAGE_KEY "FileServer-0.1.0.0-24Nsi4KvepALahWGto07JW"
 #endif /* CURRENT_PACKAGE_KEY */
 #ifndef CURRENT_COMPONENT_ID
-#define CURRENT_COMPONENT_ID "FileServer-0.1.0.0-Jw5eJ9ppmJmJsMWc1qUD0m"
+#define CURRENT_COMPONENT_ID "FileServer-0.1.0.0-24Nsi4KvepALahWGto07JW"
 #endif /* CURRENT_COMPONENT_ID */
 #ifndef CURRENT_PACKAGE_VERSION
 #define CURRENT_PACKAGE_VERSION "0.1.0.0"

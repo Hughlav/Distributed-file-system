@@ -14,10 +14,13 @@ import Data.Map (Map)
 import System.Exit
 import Network.Socket hiding (accept)
 import System.Exit
+import Data.List
+--import Data.Text hiding (words, head)
+import Data.List.Split
 
 
 
-type CachedBy = TVar (Map Int Handle)
+type CachedBy = TVar [Int]
 type FileList = TVar (Map String File)
 
 data File = File
@@ -41,7 +44,7 @@ runConn handle fileList port = do
       command <- hGetLine handle
       case words command of
         ["OPEN", fileName, clientPort] -> do -- Client wants to open a file
-          putStrLn $ "Writing file to client" ++ fileName
+          putStrLn $ "Writing file to client " ++ fileName
           openFileandSend handle fileList fileName (read clientPort) --open file and send
           readNxt
         ["WRITE", fileName, clientPort] -> do --Client wants to write a file
@@ -86,12 +89,15 @@ removeClientfromCacheList fileName clientPort fileList = atomically $ do
             error "That file list does not exist"
         Just aFile -> do
             cacheList <- readTVar (cachedBy aFile)
-            case M.lookup clientPort cacheList of
-              Nothing -> do -- client was already removed
-                error "Client was already off cacheList"
-              Just aClient -> do --client on list, remove now.
-                let addCacheList = M.delete clientPort cacheList
+            let contains = elem clientPort cacheList 
+            if contains
+              then do
+                let addCacheList = delete clientPort cacheList
                 writeTVar (cachedBy aFile) addCacheList
+              else do 
+                error "Client was already off cacheList"
+              
+                
  
 -- check version number of a given file
 checkVer :: String -> FileList -> IO Int
@@ -110,6 +116,7 @@ openSocket portNum = withSocketsDo $ do
   sock <- listenOn (PortNumber (fromIntegral portNum))
   forkIO (readytoclose sock)
   fileList <- newServer
+  initServer fileList
   putStrLn "Waiting for connections\n"
   -- readytoclose close properly
   forever $ do 
@@ -121,6 +128,7 @@ openSocket portNum = withSocketsDo $ do
 openFileandSend :: Handle -> FileList -> String -> Int -> IO() 
 openFileandSend clientHandle fileList filename clientPort = do
     fileExist <- addToFileListRead clientHandle filename fileList clientPort 
+    putStrLn $ "fileExist " ++ (show fileExist)
     if fileExist
         then do
             contents <- readFile filename
@@ -169,10 +177,9 @@ updateClientCache fileList fileName hasUpdatedVer = do
       error "Cannot update cache for file not on fileList"
     Just aFile -> do
       cacheList <- atomically $ readTVar (cachedBy aFile)
-      let oldCaches = M.delete hasUpdatedVer cacheList
-      let ports = M.keys oldCaches
-      putStrLn (show ports)
-      mapM_ (\x -> openFileandSend' x fileList fileName) ports 
+      let oldCaches = delete hasUpdatedVer cacheList
+      putStrLn (show oldCaches)
+      mapM_ (\x -> openFileandSend' x fileList fileName) oldCaches 
 
 --Write the file locally
 writeFileandClose :: String -> String-> IO() 
@@ -187,20 +194,25 @@ addToFileListWrite handle fileName fileList clientPort = do
   list <- atomically $ readTVar fileList
   case M.lookup fileName list of 
     Nothing -> do --new file, create file object and and add this client to the list
-      file <- atomically $ newFile handle fileName clientPort
+      file <- atomically $ newFile fileName clientPort -------------------------------------
       atomically $ modifyTVar (fileVersion file) (add 1)
       let addList = M.insert fileName file list
       atomically $ writeTVar fileList addList
+      createTxtForInit fileName clientPort
     Just aFile -> do --exising file , check if client on list already
       cacheList <- atomically $ readTVar (cachedBy aFile)
-      case M.lookup clientPort cacheList of
-        Nothing -> do -- new client, add client to list and increment version number
+      let contains = elem clientPort cacheList
+      if contains
+        then do --old client, update verion number
+          atomically $modifyTVar (fileVersion aFile) (add 1)
+        else do -- new client, add client to list and increment version number
           atomically $ modifyTVar (fileVersion aFile) (add 1)
           ver <- atomically $ readTVar (fileVersion aFile) 
-          let addCacheList = M.insert clientPort handle cacheList
+          let addCacheList = insert clientPort cacheList
           atomically $ writeTVar (cachedBy aFile) addCacheList
-        Just aClient -> do--old client, update verion number
-          atomically $modifyTVar (fileVersion aFile) (add 1)
+          addClientToTxt fileName clientPort
+        
+          
  
 --Client opens file, as above check if client is on cachelist of file and act accordingly.
 addToFileListRead :: Handle -> String -> FileList -> Int -> IO Bool
@@ -212,20 +224,33 @@ addToFileListRead handle fileName fileList clientPort = do
       return False
     Just aFile -> do --exising file 
       cacheList <- atomically $ readTVar (cachedBy aFile) 
-      case M.lookup clientPort cacheList of
-        Nothing -> do -- add client to list
-          let addCacheList = M.insert clientPort handle cacheList
+      let contains = elem clientPort cacheList
+      if contains
+        then do 
+          return True
+        else do -- add client to list
+          let addCacheList = insert clientPort cacheList
           atomically $ writeTVar (cachedBy aFile) addCacheList
+          addClientToTxt fileName clientPort
+          putStrLn "returning True"
           return True
-        Just aClient -> do --update verion number
-          return True
+      return True
+          
 
 --create a new file and add client creating file to its cachelist
-newFile :: Handle -> String -> Int -> STM File
-newFile handle fileName clientPort = do
-  cacheList <- newTVar $ M.insert clientPort handle M.empty
+newFile :: String -> Int -> STM File
+newFile fileName clientPort = do
+  cacheList <- newTVar [clientPort]
   vers <- newTVar 0
   return File { fileVersion = vers
+              , cachedBy = cacheList
+              }
+
+newFile' :: String -> Int -> Int -> STM File
+newFile' fileName clientPort vers = do
+  cacheList <- newTVar [clientPort]
+  versi <- newTVar vers
+  return File { fileVersion = versi
               , cachedBy = cacheList
               }
 
@@ -244,3 +269,78 @@ readytoclose soc = do
             exitSuccess
         [_] -> do
             readytoclose soc
+
+
+initServer :: FileList -> IO()
+initServer fileList = do
+  handle <- openFile "init/files.txt" ReadMode
+  myloop handle fileList
+  hClose handle
+  where 
+    myloop handle fileList= do
+      test <- hIsEOF handle --read until end of file
+      if test
+        then do
+          return()
+        else do
+          line <- hGetLine handle --get next line of settings
+          populateList fileList line --add servers to ServerList
+          myloop handle fileList  
+
+populateList :: FileList -> String -> IO()
+populateList fileList line = do
+  list <- atomically $ readTVar fileList
+  putStrLn $ "Line is: " ++ line
+  case words line of
+    [fileName, vers, portnums] -> do
+      let ports = splitOn "-" portnums
+      let portInts = map read ports
+      let first = head ports
+      file <- atomically $ newFile' fileName (read first) (read vers)
+      cacheList <- atomically $ readTVar (cachedBy file)
+      let addCacheList =  cacheList ++ portInts
+      atomically $ writeTVar (cachedBy file) addCacheList
+      let addList = M.insert fileName file list
+      atomically $ writeTVar fileList addList
+    [_] -> do
+      putStrLn "ERROR unknown line in files.txt file while initiating fileList"
+ 
+createTxtForInit :: String -> Int -> IO()
+createTxtForInit fileName port = do
+  handle <- openFile "init/files.txt" AppendMode
+  let line = fileName ++ " 0 " ++ (show port)
+  hPutStrLn handle line 
+  hClose handle
+
+addClientToTxt :: String -> Int -> IO()
+addClientToTxt fileName port = do
+  putStrLn "adding client to txt"
+  handle <- openFile "init/files.txt" ReadMode
+  let returnStr = ""
+  finalStr <- myloop handle fileName port returnStr
+  hClose handle
+  putStrLn "adding str to txt"
+  writeFile "init/files.txt" finalStr
+  putStrLn "done addClinetTxt"
+  where 
+    myloop handle fileName port returnStr = do
+      test <- hIsEOF handle --read until end of file
+      if test
+        then do
+          return returnStr
+        else do
+          line <- hGetLine handle --get next line of settings
+          case words line of
+            [filen, vers, ports] -> do 
+              if (filen == fileName)
+                then do
+                  let ports = ports ++ "-" ++ (show port)
+                  let newline = unwords [filen, vers, ports]
+                  let returnStr = returnStr ++ newline ++ "\n"
+                  myloop handle fileName port returnStr
+                else do
+                  let returnStr = returnStr ++ line ++ "\n"
+                  myloop handle fileName port returnStr
+            [_] -> do 
+              myloop handle fileName port returnStr
+  
