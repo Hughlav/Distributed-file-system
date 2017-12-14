@@ -69,6 +69,7 @@ runConn handle fileList port = do
             hPutStrLn handle (contents ++ "!EOF!") -- \n before !EOF!
         ["CLOSE", fileName, clientPort] -> do -- client done with file, remove client from update cache list.
             removeClientfromCacheList fileName (read clientPort) fileList
+            removeClientToTxt fileName (read clientPort)
         ["VER", fileName] -> do  --print version number. note currently not in use.
           ver <- checkVer fileName fileList
           case ver of 
@@ -314,14 +315,11 @@ createTxtForInit fileName port = do
 
 addClientToTxt :: String -> Int -> IO()
 addClientToTxt fileName port = do
-  putStrLn "adding client to txt"
   handle <- openFile "init/files.txt" ReadMode
   let returnStr = ""
   finalStr <- myloop handle fileName port returnStr
   hClose handle
-  putStrLn "adding str to txt"
   writeFile "init/files.txt" finalStr
-  putStrLn "done addClinetTxt"
   where 
     myloop handle fileName port returnStr = do
       test <- hIsEOF handle --read until end of file
@@ -334,13 +332,48 @@ addClientToTxt fileName port = do
             [filen, vers, ports] -> do 
               if (filen == fileName)
                 then do
-                  let ports = ports ++ "-" ++ (show port)
-                  let newline = unwords [filen, vers, ports]
-                  let returnStr = returnStr ++ newline ++ "\n"
-                  myloop handle fileName port returnStr
+                  let newports = ports ++ "-" ++ (show port)
+                  let newlineStr = unwords [filen, vers, newports]
+                  let newReturnStr = returnStr ++ newlineStr ++ "\n"
+                  myloop handle fileName port newReturnStr
                 else do
-                  let returnStr = returnStr ++ line ++ "\n"
-                  myloop handle fileName port returnStr
+                  let newReturnStr = returnStr ++ line ++ "\n"
+                  myloop handle fileName port newReturnStr
             [_] -> do 
+              putStrLn "unrecgonised line"
               myloop handle fileName port returnStr
   
+removeClientToTxt :: String -> Int -> IO() ---
+removeClientToTxt fileName port = do
+  handle <- openFile "init/files.txt" ReadMode
+  let returnStr = ""
+  finalStr <- myloop handle fileName port returnStr
+  hClose handle
+  writeFile "init/files.txt" finalStr
+  where 
+    myloop handle fileName port returnStr = do
+      test <- hIsEOF handle --read until end of file
+      if test
+        then do
+          return returnStr
+        else do
+          line <- hGetLine handle --get next line of settings
+          case words line of
+            [filen, vers, ports] -> do 
+              if (filen == fileName)
+                then do
+                  let portsSplit = splitOn "-" ports
+                  let newPortInts = delete (show port) portsSplit
+                  let finalPort = intercalate "-" newPortInts
+                  let newlineStr = unwords [filen, vers, finalPort]
+                  let newReturnStr = returnStr ++ newlineStr ++ "\n"
+                  myloop handle fileName port newReturnStr
+                else do
+                  let newReturnStr = returnStr ++ line ++ "\n"
+                  myloop handle fileName port newReturnStr
+            [_] -> do 
+              putStrLn "unrecgonised line"
+              myloop handle fileName port returnStr
+
+
+             

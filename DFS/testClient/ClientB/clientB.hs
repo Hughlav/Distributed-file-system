@@ -8,7 +8,7 @@ clientName :: String
 clientName = "clientB"
 
 portUpdate :: Int
-portUpdate = 52908
+portUpdate = 4008
 
 main :: IO()
 main = do 

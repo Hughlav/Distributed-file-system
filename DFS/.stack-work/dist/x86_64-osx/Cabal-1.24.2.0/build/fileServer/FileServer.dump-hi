@@ -1,11 +1,11 @@
 
 ==================== FINAL INTERFACE ====================
-2017-12-13 23:19:54.224732 UTC
+2017-12-14 13:57:14.699679 UTC
 
 interface DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR:FileServer 8002
-  interface hash: bc146621d3dc812ef069c8fc7e381c2f
-  ABI hash: b233dca1f990ab0bdcc5ab0452014c9f
-  export-list hash: 35e2b2afa19268672951249563f72572
+  interface hash: 72ea1fd52226bdb5d1fa854d953a91a9
+  ABI hash: f37edf1eb958191e4d3902867a11473e
+  export-list hash: 6188abf936d0206de9f04215c2f8542d
   orphan hash: 6846b5ff1b10b727477bc464736f48fb
   flag hash: 9f824abc175ef353d85c18036ab74a85
   sig of: Nothing
@@ -27,6 +27,7 @@ exports:
   FileServer.openSocket
   FileServer.populateList
   FileServer.readytoclose
+  FileServer.removeClientToTxt
   FileServer.removeClientfromCacheList
   FileServer.runConn
   FileServer.updateClientCache
@@ -157,7 +158,7 @@ a97164765d6ad65a4d7f1f36a23849a0
   {- HasNoCafRefs, Strictness: m1,
      Unfolding: (GHC.Types.TrNameS
                    "DFS-0.1.0.0-7idFxpKHsOVL8Ht6XDP4lR"#) -}
-69bb37ed8d010eb21f28bc8dbeb4d2c1
+a02b9b207deda0717c8b15e5996557fc
   $waddToFileListRead ::
     GHC.Base.String
     -> GHC.Prim.TVar#
@@ -234,7 +235,7 @@ a97164765d6ad65a4d7f1f36a23849a0
                                   ipv6 of ds5 { (#,#) ipv8 ipv9 ->
                            (# ipv8, GHC.Types.True #) } } }
                         GHC.Types.True -> (# ipv2, GHC.Types.True #) } } } }) -}
-42e753272a36acf8224f372ffe267373
+d9e2a21e5a268b3e8aabe67992f55b45
   $waddToFileListWrite ::
     GHC.Base.String
     -> GHC.Prim.TVar#
@@ -383,7 +384,7 @@ a97164765d6ad65a4d7f1f36a23849a0
                                      ipv4 of s2# { DEFAULT ->
                               (# s2#, GHC.Tuple.() #) } } } })
                              ipv2 } } } }) -}
-bff4c435a03b1f3547a2f738bfb2a553
+55bfb082d46c148e9a27d329bd718bfd
   $wopenFileandSend ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Prim.TVar#
@@ -620,7 +621,7 @@ b9a37c64beef5b992a7c4b3109d6cb49
                                go ys ipv6 } }
                       } in
                       go oldCaches ipv4 } } } }) -}
-1e7c9a775ae725cf93dce8289f88eee9
+5433f3c7a7c10ecd6942e65d5205970e
   $wwriteFileList ::
     GHC.Base.String
     -> GHC.Base.String
@@ -665,7 +666,7 @@ b3d9182a85714971eb7782425dec6651
   add :: GHC.Types.Int -> GHC.Types.Int -> GHC.Types.Int
   {- Arity: 2, HasNoCafRefs, Strictness: <S(S),1*U(U)><S(S),1*U(U)>m,
      Unfolding: InlineRule (0, True, True) GHC.Num.$fNumInt_$c+ -}
-dc587261768c23f7fb92dff0028903b6
+ca00e38f0a87b0ee7bbd6f1be7afefde
   addClientToTxt ::
     GHC.Base.String -> GHC.Types.Int -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,U><L,U(U)><S,U>,
@@ -675,7 +676,7 @@ dc587261768c23f7fb92dff0028903b6
                 (<GHC.Base.String>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-94077ddcc42cdadf222deac47264db95
+ed3375dc874f6d64de0abb2d4554159e
   addClientToTxt1 ::
     GHC.Base.String
     -> GHC.Types.Int
@@ -685,44 +686,20 @@ dc587261768c23f7fb92dff0028903b6
      Unfolding: (\ (fileName :: GHC.Base.String)
                    (port :: GHC.Types.Int)
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        FileServer.addClientToTxt6
-                        GHC.Types.True
-                        s of ds1 { (#,#) ipv ipv1 ->
                  case GHC.IO.Handle.FD.openFile1
-                        FileServer.addClientToTxt5
+                        FileServer.addClientToTxt3
                         GHC.IO.IOMode.ReadMode
-                        ipv of ds2 { (#,#) ipv2 ipv3 ->
-                 case FileServer.addClientToTxt4
-                        ipv3
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 case FileServer.addClientToTxt2
+                        ipv1
                         fileName
                         port
                         (GHC.Types.[] @ GHC.Types.Char)
-                        ipv2 of ds3 { (#,#) ipv4 ipv5 ->
-                 case GHC.IO.Handle.hClose1 ipv3 ipv4 of ds4 { (#,#) ipv6 ipv7 ->
-                 case GHC.IO.Handle.Text.hPutStr2
-                        GHC.IO.Handle.FD.stdout
-                        FileServer.addClientToTxt3
-                        GHC.Types.True
-                        ipv6 of ds5 { (#,#) ipv8 ipv9 ->
-                 case System.IO.writeFile1
-                        FileServer.addClientToTxt5
-                        ipv5
-                        ipv8 of ds6 { (#,#) ipv10 ipv11 ->
-                 GHC.IO.Handle.Text.hPutStr2
-                   GHC.IO.Handle.FD.stdout
-                   FileServer.addClientToTxt2
-                   GHC.Types.True
-                   ipv10 } } } } } }) -}
-83e1470fd556d17ca5540d9b578272ff
-  addClientToTxt2 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "done addClinetTxt"#) -}
-c687eccf8d0da779d444156685971e4e
-  addClientToTxt3 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString# "adding str to txt"#) -}
-22fac0e7cf6b450644ade511fc32d6c4
-  addClientToTxt4 ::
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case GHC.IO.Handle.hClose1 ipv1 ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                 System.IO.writeFile1 FileServer.addClientToTxt3 ipv3 ipv4 } } }) -}
+47df3baaa5561e5b603f4b2e967fb3d0
+  addClientToTxt2 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
     -> GHC.Types.Int
@@ -730,14 +707,10 @@ c687eccf8d0da779d444156685971e4e
     -> GHC.Prim.State# GHC.Prim.RealWorld
     -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
   {- Arity: 5, Strictness: <S,U><L,U><L,U(U)><L,U><S,U> -}
-b025eee8e62ccfc4dc87433f4d973345
-  addClientToTxt5 :: [GHC.Types.Char]
+cf63116c5e232b69be6e6e91bd82a077
+  addClientToTxt3 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "init/files.txt"#) -}
-a7fde06d784fbbb2458c49c7ba70f77c
-  addClientToTxt6 :: [GHC.Types.Char]
-  {- Unfolding: (GHC.CString.unpackCString#
-                   "adding client to txt"#) -}
-7730e0a0c428cb8f2fb98301fcf761fa
+97d6e3259624fe8078b02571ca6657a7
   addToFileListRead ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -753,7 +726,7 @@ a7fde06d784fbbb2458c49c7ba70f77c
                  ->_R <FileServer.FileList>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <GHC.Types.Bool>_R)) -}
-92b1cb3505a0258f98115fda09232400
+d710c2199398d6eae97f715fb1cf6cec
   addToFileListRead1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -777,7 +750,7 @@ a7fde06d784fbbb2458c49c7ba70f77c
 0e8159e9ffa23236d7febac538c92ce6
   addToFileListRead3 :: GHC.Types.IO GHC.Prim.Any
   {- Strictness: x -}
-5bd26c2ef1f223956168b8d75c943260
+9edbc4ed8fbabe1b5c3c982b071b4dfb
   addToFileListWrite ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -793,7 +766,7 @@ a7fde06d784fbbb2458c49c7ba70f77c
                  ->_R <FileServer.FileList>_R
                  ->_R <GHC.Types.Int>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-9d5b36b33e1d8e8650ca152ba8e66069
+cd19322f19f90dd677d97c18a24e0538
   addToFileListWrite1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -811,7 +784,7 @@ a7fde06d784fbbb2458c49c7ba70f77c
                    (w4 :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case w2 of ww { GHC.Conc.Sync.TVar ww1 ->
                  FileServer.$waddToFileListWrite w1 ww1 w3 w4 }) -}
-06b8d591bb4bbb6bdfa93ed5a545863f
+a3df187a9d4309e1be0306443116d6bc
   addToFileListWrite2 ::
     GHC.Base.String
     -> GHC.Types.Int
@@ -822,7 +795,7 @@ a7fde06d784fbbb2458c49c7ba70f77c
                    (port :: GHC.Types.Int)
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case GHC.IO.Handle.FD.openFile1
-                        FileServer.addClientToTxt5
+                        FileServer.addClientToTxt3
                         GHC.IO.IOMode.AppendMode
                         s of ds1 { (#,#) ipv ipv1 ->
                  case GHC.IO.Handle.Text.hPutStr2
@@ -924,7 +897,7 @@ ab06b3b91c45b89f6dac1e1e23b2c1f0
                            tvar#1
                            ipv } } } } })
                    eta) -}
-f8033bed4279a46185b7eb074c2f2ca3
+782f4e4998ff0e9388e350dbb412960e
   createTxtForInit ::
     GHC.Base.String -> GHC.Types.Int -> GHC.Types.IO ()
   {- Arity: 3, Strictness: <L,1*U><L,1*U(U)><S,U>,
@@ -941,14 +914,14 @@ a503a33e0ef9a29179a422e5a646e96b
      Unfolding: InlineRule (1, True, False)
                 (\ (ds :: FileServer.File) ->
                  case ds of wild { FileServer.File ds1 ds2 -> ds1 }) -}
-e53b77eb7caa65bf6c10c6ac751a5965
+022e861c58e85902498b9e08240a62fd
   initServer :: FileServer.FileList -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <L,U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 FileServer.initServer1
                   `cast`
                 (<FileServer.FileList>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-941b27c0fb46aa93e7e585a7ed5d3aee
+26bdc08effb7964df9dcee4face52f9a
   initServer1 ::
     FileServer.FileList
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -957,7 +930,7 @@ e53b77eb7caa65bf6c10c6ac751a5965
      Unfolding: (\ (fileList :: FileServer.FileList)
                    (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
                  case GHC.IO.Handle.FD.openFile1
-                        FileServer.addClientToTxt5
+                        FileServer.addClientToTxt3
                         GHC.IO.IOMode.ReadMode
                         s of ds1 { (#,#) ipv ipv1 ->
                  case FileServer.initServer2
@@ -1054,7 +1027,7 @@ a3798c9b6b47de017e9127081c6b152c
                     GHC.Conc.Sync.TVar
                       @ (Data.Map.Base.Map GHC.Base.String FileServer.File)
                       ipv1 #) }) -}
-7ca6574e64973a4da31fefc66a446d4c
+8556c622a2a2dfa7f443cab12804b5b1
   openFileandSend ::
     GHC.IO.Handle.Types.Handle
     -> FileServer.FileList
@@ -1111,7 +1084,7 @@ b169ecc1fe12005be3d1a7c62a20e8d3
 ed2577f79d6de27572b47ff01133ee73
   openFileandSend'4 :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString# "localhost"#) -}
-5dd657d9b90298ebd731b87e03501c0f
+e389087866909e5c364c2427d7010408
   openFileandSend1 ::
     GHC.IO.Handle.Types.Handle
     -> FileServer.FileList
@@ -1136,14 +1109,14 @@ e813c209875b1343950e5c423c6bc3fc
   openFileandSend_reply :: [GHC.Types.Char]
   {- Unfolding: (GHC.CString.unpackCString#
                    "That file does not exist"#) -}
-9f377d442405d6f7d9b15e7c06e6c826
+dea9a3358ce46d4f4c48e7be6840b8b6
   openSocket :: GHC.Types.Int -> GHC.Types.IO ()
   {- Arity: 2, Strictness: <L,1*U(U)><S,U>,
      Unfolding: InlineRule (0, True, True)
                 FileServer.openSocket1
                   `cast`
                 (<GHC.Types.Int>_R ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-2e837147aef57c0dc58d2701c07620b8
+b69fdc7c4e31f52d50dab765c78015d4
   openSocket1 ::
     GHC.Types.Int
     -> GHC.Prim.State# GHC.Prim.RealWorld
@@ -1279,6 +1252,47 @@ f39b85e2e6809f1ac655abca7dd1cebd
                   `cast`
                 (<Network.Socket.Types.Socket>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
+a8717ed019b6a1fe59c9daa2f3f5ae22
+  removeClientToTxt ::
+    GHC.Base.String -> GHC.Types.Int -> GHC.Types.IO ()
+  {- Arity: 3, Strictness: <L,U><L,U(U)><S,U>,
+     Unfolding: InlineRule (0, True, True)
+                FileServer.removeClientToTxt1
+                  `cast`
+                (<GHC.Base.String>_R
+                 ->_R <GHC.Types.Int>_R
+                 ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
+ab1b4e7d9bae625dfd52cc2b23c21a8e
+  removeClientToTxt1 ::
+    GHC.Base.String
+    -> GHC.Types.Int
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, () #)
+  {- Arity: 3, Strictness: <L,U><L,U(U)><S,U>,
+     Unfolding: (\ (fileName :: GHC.Base.String)
+                   (port :: GHC.Types.Int)
+                   (s :: GHC.Prim.State# GHC.Prim.RealWorld)[OneShot] ->
+                 case GHC.IO.Handle.FD.openFile1
+                        FileServer.addClientToTxt3
+                        GHC.IO.IOMode.ReadMode
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 case FileServer.removeClientToTxt2
+                        ipv1
+                        fileName
+                        port
+                        (GHC.Types.[] @ GHC.Types.Char)
+                        ipv of ds2 { (#,#) ipv2 ipv3 ->
+                 case GHC.IO.Handle.hClose1 ipv1 ipv2 of ds3 { (#,#) ipv4 ipv5 ->
+                 System.IO.writeFile1 FileServer.addClientToTxt3 ipv3 ipv4 } } }) -}
+437b0671a189dc7f1b42793eda546e60
+  removeClientToTxt2 ::
+    GHC.IO.Handle.Types.Handle
+    -> GHC.Base.String
+    -> GHC.Types.Int
+    -> [GHC.Types.Char]
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld, [GHC.Types.Char] #)
+  {- Arity: 5, Strictness: <S,U><L,U><L,U(U)><L,U><S,U> -}
 7c7add10227c28365a51c3fa9eaf18a0
   removeClientfromCacheList ::
     GHC.Base.String
@@ -1371,7 +1385,7 @@ d0070ae8719d7c8cd7c10136b808384c
 8b0f7454bf366365a667f44a64e7725b
   updateClientCache2 :: GHC.Types.IO ()
   {- Strictness: x -}
-d6bdc4187a48b65311e210887c95be8a
+c5417a7a49830af4843135b81361e6a5
   writeFileList ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
@@ -1389,7 +1403,7 @@ d6bdc4187a48b65311e210887c95be8a
                  ->_R <GHC.Types.Int>_R
                  ->_R <FileServer.FileList>_R
                  ->_R Sym (GHC.Types.N:IO[0] <()>_R)) -}
-02e972609e26550cd7e494a25183185d
+aa722bdfcc986fd191fd867f6f5e86ce
   writeFileList1 ::
     GHC.IO.Handle.Types.Handle
     -> GHC.Base.String
